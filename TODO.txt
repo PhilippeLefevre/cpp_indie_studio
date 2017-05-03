@@ -1,0 +1,47 @@
+##########################
+# Indie-Studio TODO list #
+##########################
+
+JEU ------> BOMBERMAN
+
+LIB ------> IRRLICHT
+
+#########
+# TO-DO #
+#########
+
+--- MultiPlayer
+  2 players 1 keyboard
+
+--- IA
+  LUA ? Thread ?
+
+--- Map et perso en 3D
+
+--- Camera fixe
+  vue en 2D
+
+--- Map generator
+  cf Dante
+
+--- Score && ScoreBoard
+
+--- Menu
+  - Solo
+  - Multi
+  - Options
+  - Highscore
+
+--- SplashScreen
+  SEGAAAAAAAAAAAAAAAAA !
+
+--- Save
+  3 pouvoirs (minimum)
+
+--- SoundEffect
+  .wav ( Les mecs qui utilise du mp3 sont des gros sacs )
+  J'ai peut-etre un bail avec Hans Zimmer
+
+--- Compat Windows/Linux
+  regle "Install" dans le Makefile
+  wget sur le serveur d'Alban ?
