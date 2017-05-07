@@ -5,12 +5,18 @@
 // Login   <zobov_v@epitech.net>
 // 
 // Started on  Thu May  4 17:12:57 2017 Vladisalv ZOBOV
-// Last update Fri May  5 18:48:50 2017 Vladisalv ZOBOV
+// Last update Sat May  6 21:49:39 2017 Vladisalv ZOBOV
 //
 
 #include "EventReceiver.hh"
 
-irr::IrrlichtDevice * device;
+irr::IrrlichtDevice * device = 0;
+irr::scene::ISceneNode* Model = 0;
+irr::core::stringc StartUpModelFile;
+irr::core::stringw MessageText;
+irr::core::stringw Caption;
+bool Octree=false;
+bool UseLight=false;
 
 void setActiveCamera(irr::scene::ICameraSceneNode* newActive)
 {
@@ -24,7 +30,118 @@ void setActiveCamera(irr::scene::ICameraSceneNode* newActive)
   device->getSceneManager()->setActiveCamera(newActive);
 }
 
-int	main()
+void updateScaleInfo(irr::scene::ISceneNode* model)
+{
+  irr::gui::IGUIElement* toolboxWnd = device->getGUIEnvironment()->getRootGUIElement()->getElementFromId(GUI_ID_DIALOG_ROOT_WINDOW, true);
+  if (!toolboxWnd)
+    return;
+  if (!model)
+    {
+      toolboxWnd->getElementFromId(GUI_ID_X_SCALE, true)->setText( L"-" );
+      toolboxWnd->getElementFromId(GUI_ID_Y_SCALE, true)->setText( L"-" );
+      toolboxWnd->getElementFromId(GUI_ID_Z_SCALE, true)->setText( L"-" );
+    }
+  else
+    {
+      irr::core::vector3df scale = model->getScale();
+      toolboxWnd->getElementFromId(GUI_ID_X_SCALE, true)->setText( irr::core::stringw(scale.X).c_str() );
+      toolboxWnd->getElementFromId(GUI_ID_Y_SCALE, true)->setText( irr::core::stringw(scale.Y).c_str() );
+      toolboxWnd->getElementFromId(GUI_ID_Z_SCALE, true)->setText( irr::core::stringw(scale.Z).c_str() );
+    }
+}
+
+void loadModel(const irr::c8* fn)
+{
+  // modify the name if it a .pk3 file
+
+  irr::io::path filename(fn);
+
+  irr::io::path extension;
+  irr::core::getFileNameExtension(extension, filename);
+  extension.make_lower();
+
+  // if a texture is loaded apply it to the current model..
+  if (extension == ".jpg" || extension == ".pcx" ||
+      extension == ".png" || extension == ".ppm" ||
+      extension == ".pgm" || extension == ".pbm" ||
+      extension == ".psd" || extension == ".tga" ||
+      extension == ".bmp" || extension == ".wal" ||
+      extension == ".rgb" || extension == ".rgba")
+    {
+      irr::video::ITexture * texture =
+	device->getVideoDriver()->getTexture( filename );
+      if ( texture && Model )
+	{
+	  // always reload texture
+	  device->getVideoDriver()->removeTexture(texture);
+	  texture = device->getVideoDriver()->getTexture( filename );
+
+	  Model->setMaterialTexture(0, texture);
+	}
+      return;
+    }
+  // if a archive is loaded add it to the FileArchive..
+  else if (extension == ".pk3" || extension == ".zip" || extension == ".pak" || extension == ".npk")
+    {
+      device->getFileSystem()->addFileArchive(filename.c_str());
+      return;
+    }
+
+  // load a model into the engine
+
+  if (Model)
+    Model->remove();
+
+  Model = 0;
+  if (extension==".irr")
+    {
+      irr::core::array<irr::scene::ISceneNode*> outNodes;
+      device->getSceneManager()->loadScene(filename);
+      device->getSceneManager()->getSceneNodesFromType(irr::scene::ESNT_ANIMATED_MESH, outNodes);
+      if (outNodes.size())
+	Model = outNodes[0];
+      return;
+    }
+
+  irr::scene::IAnimatedMesh* m = device->getSceneManager()->getMesh( filename.c_str() );
+
+  if (!m)
+    {
+      // model could not be loaded
+
+      if (StartUpModelFile != filename)
+	device->getGUIEnvironment()->addMessageBox(
+						   Caption.c_str(), L"The model could not be loaded. " \
+						   L"Maybe it is not a supported file format.");
+      return;
+    }
+
+  // set default material properties
+
+  if (Octree)
+    Model = device->getSceneManager()->addOctreeSceneNode(m->getMesh(0));
+  else
+    {
+      irr::scene::IAnimatedMeshSceneNode* animModel = device->getSceneManager()->addAnimatedMeshSceneNode(m);
+      animModel->setAnimationSpeed(30);
+      Model = animModel;
+    }
+  Model->setMaterialFlag(irr::video::EMF_LIGHTING, UseLight);
+  Model->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, UseLight);
+  //      Model->setMaterialFlag(video::EMF_BACK_FACE_CULLING, false);
+  Model->setDebugDataVisible(irr::scene::EDS_OFF);
+
+  // we need to uncheck the menu entries. would be cool to fake a menu event, but
+  // that's not so simple. so we do it brute force
+  irr::gui::IGUIContextMenu* menu = (irr::gui::IGUIContextMenu*)device->getGUIEnvironment()->getRootGUIElement()->getElementFromId(GUI_ID_TOGGLE_DEBUG_INFO, true);
+  if (menu)
+    for(int item = 1; item < 6; ++item)
+      menu->setItemChecked(item, false);
+  updateScaleInfo(Model);
+}
+
+
+int	main(int argc, char **argv)
 {
   irr::video::E_DRIVER_TYPE driverType = irr::driverChoiceConsole();
   if (driverType == irr::video::EDT_COUNT)
@@ -44,6 +161,8 @@ int	main()
   irr::gui::IGUISkin* skin = env->getSkin();
   irr::gui::IGUIFont* font = env->getFont("media/Gamegirl.ttf");
 
+  device->getFileSystem()->addFileArchive("./media/");
+
   if (font)
     skin->setFont(font);
 
@@ -61,15 +180,49 @@ int	main()
   device->setEventReceiver(&receiver);
   env->addImage(driver->getTexture("media/logo1.png"), irr::core::position2d<int>(10,10));
 
+  irr::io::IXMLReader* xml = device->getFileSystem()->createXMLReader( L"config.xml");
+
+  while(xml && xml->read())
+    {
+      switch(xml->getNodeType())
+	{
+	case irr::io::EXN_TEXT:
+	  // in this xml file, the only text which occurs is the
+	  // messageText
+	  MessageText = xml->getNodeData();
+	  break;
+	case irr::io::EXN_ELEMENT:
+	  {
+	    if (irr::core::stringw("startUpModel") == xml->getNodeName())
+	      StartUpModelFile = xml->getAttributeValue(L"file");
+	    else
+	      if (irr::core::stringw("messageText") == xml->getNodeName())
+		Caption = xml->getAttributeValue(L"caption");
+	  }
+	  break;
+	default:
+	  break;
+	}
+    }
+
+  if (xml)
+    xml->drop(); // don't forget to delete the xml reader
+
+  if (argc > 1)
+    StartUpModelFile = argv[1];
+
+  loadModel(StartUpModelFile.c_str());
+  
   irr::scene::ISceneNode* SkyBox = smgr->addSkyBoxSceneNode(
-							    driver->getTexture("media/mckg.jpg"),
-							    driver->getTexture("media/mckg.jpg"),
-							    driver->getTexture("media/mckg.jpg"),
-							    driver->getTexture("media/mckg.jpg"),
-							    driver->getTexture("media/mckg.jpg"),
-							    driver->getTexture("media/mckg.jpg"));
+							    driver->getTexture("media/mp_drakeq/drakeq_up.tga"),
+							    driver->getTexture("media/mp_drakeq/drakeq_dn2.jpeg"),
+							    driver->getTexture("media/mp_drakeq/drakeq_lf.tga"),
+							    driver->getTexture("media/mp_drakeq/drakeq_rt.tga"),
+							    driver->getTexture("media/mp_drakeq/drakeq_bk.tga"),
+							    driver->getTexture("media/mp_drakeq/drakeq_ft.tga"));
 
   irr::scene::ICameraSceneNode* Camera[2] = {0, 0};
+
   Camera[0] = smgr->addCameraSceneNodeMaya();
   Camera[0]->setFarValue(20000.f);
   Camera[0]->setTarget(irr::core::vector3df(0,30,0));

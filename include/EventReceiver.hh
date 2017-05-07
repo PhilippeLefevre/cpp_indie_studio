@@ -5,7 +5,7 @@
 // Login   <zobov_v@epitech.net>
 // 
 // Started on  Thu May  4 17:42:20 2017 Vladisalv ZOBOV
-// Last update Fri May  5 17:49:15 2017 Vladisalv ZOBOV
+// Last update Sat May  6 16:17:15 2017 Vladisalv ZOBOV
 //
 
 #include <irrlicht.h>
@@ -24,7 +24,12 @@ enum
   GUI_NEW_GAME_BUTTON,
   GUI_LOAD_GAME_BUTTON,
   GUI_OPTION_GAME_BUTTON,
-  GUI_ID_TRANSPARENCY_SCROLL_BAR
+  GUI_ID_TRANSPARENCY_SCROLL_BAR,
+  GUI_ID_DIALOG_ROOT_WINDOW,
+  GUI_ID_X_SCALE,
+  GUI_ID_Y_SCALE,
+  GUI_ID_Z_SCALE,
+  GUI_ID_TOGGLE_DEBUG_INFO
 };
 
 void setSkinTransparency(irr::s32 alpha, irr::gui::IGUISkin * skin)
