@@ -5,7 +5,7 @@
 // Login   <zobov_v@epitech.net>
 // 
 // Started on  Thu May  4 17:42:20 2017 Vladisalv ZOBOV
-// Last update Sat May  6 16:17:15 2017 Vladisalv ZOBOV
+// Last update Tue May  9 16:52:13 2017 Vladisalv ZOBOV
 //
 
 #include <irrlicht.h>
@@ -75,8 +75,26 @@ public:
 	  default:
 	    break;
 	  }
+	if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+	  {
+	    irr::s32 id = event.GUIEvent.Caller->getID();
+	    irr::gui::IGUIEnvironment* env = Context.device->getGUIEnvironment();
+
+	    switch(event.GUIEvent.EventType)
+	      {
+	      case irr::gui::EKEY_CODE:
+		switch(id)
+		  {
+		  case GUI_ID_SELECT_BUTTON:
+		    Context.device->closeDevice();
+		    return true;
+		    break;
+		  }
+	      default:
+		break;
+	      }
+	  }
       }
     return false;
   }
 };
-
