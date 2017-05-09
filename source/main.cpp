@@ -5,7 +5,7 @@
 // Login   <zobov_v@epitech.net>
 // 
 // Started on  Thu May  4 17:12:57 2017 Vladisalv ZOBOV
-// Last update Sat May  6 21:49:39 2017 Vladisalv ZOBOV
+// Last update Tue May  9 15:43:04 2017 Vladisalv ZOBOV
 //
 
 #include "EventReceiver.hh"
@@ -90,7 +90,7 @@ void loadModel(const irr::c8* fn)
   // load a model into the engine
 
   if (Model)
-    Model->remove();
+      Model->remove();
 
   Model = 0;
   if (extension==".irr")
@@ -104,7 +104,7 @@ void loadModel(const irr::c8* fn)
     }
 
   irr::scene::IAnimatedMesh* m = device->getSceneManager()->getMesh( filename.c_str() );
-
+  
   if (!m)
     {
       // model could not be loaded
@@ -141,13 +141,13 @@ void loadModel(const irr::c8* fn)
 }
 
 
-int	main(int argc, char **argv)
+int	main()
 {
   irr::video::E_DRIVER_TYPE driverType = irr::driverChoiceConsole();
   if (driverType == irr::video::EDT_COUNT)
     return 1;
 
-  device = irr::createDevice(driverType, irr::core::dimension2d<irr::u32>(640, 480));
+  device = irr::createDevice(driverType, irr::core::dimension2d<irr::u32>(800, 600));
   if (device == 0)
     return 1;
   
@@ -159,18 +159,23 @@ int	main(int argc, char **argv)
   irr::scene::ISceneManager* smgr = device->getSceneManager();
   
   irr::gui::IGUISkin* skin = env->getSkin();
-  irr::gui::IGUIFont* font = env->getFont("media/Gamegirl.ttf");
+  irr::gui::IGUIFont* font = env->getFont("./media/fonts/fonts.xml");
+  //irr::gui::CGUIButton* bt = env->setImage("")
 
   device->getFileSystem()->addFileArchive("./media/");
 
   if (font)
-    skin->setFont(font);
-
+    {
+      skin->setFont(font);
+      skin->setColor(irr::gui::EGDC_BUTTON_TEXT, irr::video::SColor(255, 122, 65, 171));
+    }
   skin->setFont(env->getBuiltInFont(), irr::gui::EGDF_TOOLTIP);
-  env->addButton(irr::core::rect<irr::s32>(290,280,390,280 + 32), 0, GUI_NEW_GAME_BUTTON, L"New Game", L"Start New Game");
-  env->addButton(irr::core::rect<irr::s32>(290,320,390,320 + 32), 0, GUI_LOAD_GAME_BUTTON, L"Load Game", L"Load Save");
-  env->addButton(irr::core::rect<irr::s32>(290,360,390,360 + 32), 0, GUI_OPTION_GAME_BUTTON, L"Options", L"Game Options");
-  env->addButton(irr::core::rect<irr::s32>(290,400,390,400 + 32), 0, GUI_ID_QUIT_BUTTON, L"Quit", L"Exits Program");
+
+  env->addButton(irr::core::rect<irr::s32>(200,170,590,170 + 70), 0, GUI_NEW_GAME_BUTTON, L"New Game", L"Start New Game")->setDrawBorder(0);
+  env->addButton(irr::core::rect<irr::s32>(200,250,590,250 + 70), 0, GUI_LOAD_GAME_BUTTON, L"Load Game", L"Load Save")->setDrawBorder(0);
+  env->addButton(irr::core::rect<irr::s32>(200,330,590,330 + 70), 0, GUI_OPTION_GAME_BUTTON, L"Score", L"Score Board")->setDrawBorder(0);
+  env->addButton(irr::core::rect<irr::s32>(200,400,590,400 + 70), 0, GUI_OPTION_GAME_BUTTON, L"Options", L"Game Options")->setDrawBorder(0);
+  env->addButton(irr::core::rect<irr::s32>(200,470,590,470 + 70), 0, GUI_ID_QUIT_BUTTON, L"Quit", L"Exits Program")->setDrawBorder(0);
 
   SAppContext context;
   context.device = device;
@@ -208,11 +213,8 @@ int	main(int argc, char **argv)
   if (xml)
     xml->drop(); // don't forget to delete the xml reader
 
-  if (argc > 1)
-    StartUpModelFile = argv[1];
-
   loadModel(StartUpModelFile.c_str());
-  
+
   irr::scene::ISceneNode* SkyBox = smgr->addSkyBoxSceneNode(
 							    driver->getTexture("media/mp_drakeq/drakeq_up.tga"),
 							    driver->getTexture("media/mp_drakeq/drakeq_dn2.jpeg"),
@@ -225,7 +227,7 @@ int	main(int argc, char **argv)
 
   Camera[0] = smgr->addCameraSceneNodeMaya();
   Camera[0]->setFarValue(20000.f);
-  Camera[0]->setTarget(irr::core::vector3df(0,30,0));
+  Camera[0]->setTarget(irr::core::vector3df(0,20,0));
   Camera[1] = smgr->addCameraSceneNodeFPS();
   Camera[1]->setFarValue(20000.f);
   Camera[1]->setPosition(irr::core::vector3df(0,0,-70));
@@ -233,6 +235,7 @@ int	main(int argc, char **argv)
 
   setActiveCamera(Camera[0]);
 
+  Model->setScale(Model->getScale() * 10.0f);
   while(device->run() && driver)
     {
       if (device->isWindowActive())
