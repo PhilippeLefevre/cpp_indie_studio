@@ -57,7 +57,7 @@ bool	MainMenu::run()
   _Mdevice->setWindowCaption(str.c_str());
 
   _Mdevice->getFileSystem()->addFileArchive("./media/");
-  _logo_img = guienv->addImage(driver->getTexture("./media/blogo.png"), irr::core::position2d<int>(10, 10));
+  _logo_img = guienv->addImage(driver->getTexture("./media/blogo.png"), irr::core::position2d<int>(300, 80));
 
   irr::gui::IGUISkin* skin = guienv->getSkin();
   irr::gui::IGUIFont* font = guienv->getFont("./media/fonts/fonts.xml");
@@ -67,30 +67,47 @@ bool	MainMenu::run()
       guienv->getSkin()->setFont(font);
       skin->setColor(irr::gui::EGDC_BUTTON_TEXT, irr::video::SColor(255, 255, 255, 0));
     }
-
-  _NewGame = guienv->addButton(irr::core::rect<irr::s32>(200,190,590,190 + 60), 0, GUI_NEW_GAME_BUTTON, L"New Game");
-  //_NewGame->setDrawBorder(0);
-  _Load = guienv->addButton(irr::core::rect<irr::s32>(200,260,590,260 + 60), 0, GUI_LOAD_GAME_BUTTON, L"Load Game");
-  //_Load->setDrawBorder(0);
-  _Score = guienv->addButton(irr::core::rect<irr::s32>(200,330,590,330 + 60), 0, GUI_OPTION_GAME_BUTTON, L"Score");
-  //_Score->setDrawBorder(0);
-  _Options = guienv->addButton(irr::core::rect<irr::s32>(200,400,590,400 + 60), 0, GUI_OPTION_GAME_BUTTON, L"Options");
-  //_Options->setDrawBorder(0);
-  _Exit = guienv->addButton(irr::core::rect<irr::s32>(200,470,590,470 + 60), 0, GUI_ID_QUIT_BUTTON, L"Quit");
-  //_Exit->setDrawBorder(0);
+  _NewGame = guienv->addButton(irr::core::rect<irr::s32>(750,540,1150,540 + 60), 0, GUI_NEW_GAME_BUTTON, L"New Game");
+  _NewGame->setDrawBorder(0);
+  _Load = guienv->addButton(irr::core::rect<irr::s32>(750,610,1150,610 + 60), 0, GUI_LOAD_GAME_BUTTON, L"Load Game");
+  _Load->setDrawBorder(0);
+  _Score = guienv->addButton(irr::core::rect<irr::s32>(750,680,1150, 680 + 60), 0, GUI_OPTION_GAME_BUTTON, L"Score");
+  _Score->setDrawBorder(0);
+  _Options = guienv->addButton(irr::core::rect<irr::s32>(750,750, 1150,750 + 60), 0, GUI_OPTION_GAME_BUTTON, L"Options");
+  _Options->setDrawBorder(0);
+  _Exit = guienv->addButton(irr::core::rect<irr::s32>(750, 820, 1150, 820 + 60), 0, GUI_ID_QUIT_BUTTON, L"Quit");
+  _Exit->setDrawBorder(0);
 
   irr::scene::IAnimatedMesh* mesh = smgr->getMesh("./media/Bomberman/Bomberman/Bomberman.obj");
   irr::scene::IAnimatedMeshSceneNode* modelNode = smgr->addAnimatedMeshSceneNode(mesh);
-  irr::video::ITexture* irrlichtBack = driver->getTexture(".media/bck.jpg");
 
   if (modelNode)
     {
-      modelNode->setPosition(irr::core::vector3df(0.f, 0.f, -6.f) );
-      modelNode->setMaterialTexture(0, driver->getTexture("./media/Bomberman/Bomberman/Bomberman/Textures/Body.png"));
-      modelNode->setMD2Animation(irr::scene::EMAT_STAND);
+      modelNode->setPosition(irr::core::vector3df(0.f, -20.f, -20.f));
+      modelNode->setRotation(irr::core::vector3df(0.10f, 50.f, 0.f));
+      modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+      modelNode->setDebugDataVisible(irr::scene::EDS_OFF);
+      modelNode->getMaterial(0).NormalizeNormals = true;
+      modelNode->setFrameLoop(0, 14);
+      modelNode->setAnimationSpeed(15);
+      modelNode->setScale(modelNode->getScale() * 8.0f);
     }
+  irr::video::ITexture* irrlichtBack = driver->getTexture(".media/bck.jpg");
+  // irr::SKeyMap keyMap[5];                             // re-assigne les commandes
 
-  modelNode->setScale(modelNode->getScale() * 8.0f);
+  // keyMap[0].Action = irr::EKA_MOVE_FORWARD;           // avancer
+  // keyMap[0].KeyCode = irr::KEY_KEY_W;                 // w
+  // keyMap[1].Action = irr::EKA_MOVE_BACKWARD;          // reculer
+  // keyMap[1].KeyCode = irr::KEY_KEY_S;                 // s
+  // keyMap[2].Action = irr::EKA_STRAFE_LEFT;            // a gauche
+  // keyMap[2].KeyCode = irr::KEY_KEY_A;                 // a
+  // keyMap[3].Action = irr::EKA_STRAFE_RIGHT;           // a droite
+  // keyMap[3].KeyCode = irr::KEY_KEY_D;                 // d
+  // keyMap[4].Action = irr::EKA_JUMP_UP;                // saut
+  // keyMap[4].KeyCode = irr::KEY_SPACE;                 // barre espace
+
+  // smgr->addCameraSceneNodeFPS(0, 0.0f, 0.1f, -1, keyMap, 5);
+
   smgr->addCameraSceneNode(0, irr::core::vector3df(45,0,0), irr::core::vector3df(0,0,10));
   while(_Mdevice->run() && driver)
     {
@@ -126,6 +143,8 @@ bool	MainMenu::OnEvent(const irr::SEvent &event)
 	      return true;
 	      break;
 	    case GUI_NEW_GAME_BUTTON:
+	      _Mdevice->closeDevice();
+	      return true;
 	      break;
 	    case GUI_LOAD_GAME_BUTTON:
 	      break;
