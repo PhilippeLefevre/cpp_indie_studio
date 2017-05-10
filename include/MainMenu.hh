@@ -16,7 +16,7 @@
 class	MainMenu : public IMenu
 {
 public:
-  MainMenu();
+  MainMenu(bool f, bool m, bool s, bool a, bool v, bool fsaa, irr::video::E_DRIVER_TYPE d);
   ~MainMenu();
 
   virtual bool	run();
@@ -24,7 +24,17 @@ public:
   virtual bool	OnEvent(const irr::SEvent &event);
 
 private:
-  irr::SIrrlichtCreationParameters params;
+  irr::SIrrlichtCreationParameters _params;
+  irr::IrrlichtDevice *_Mdevice;
+
+  irr::video::E_DRIVER_TYPE _driverType;
+
+  irr::gui::IGUIButton* _NewGame;
+  irr::gui::IGUIButton* _Load;
+  irr::gui::IGUIButton* _Score;
+  irr::gui::IGUIButton* _Options;
+  irr::gui::IGUIButton* _Exit;
+  irr::gui::IGUIImage* _logo_img;
 };
 
 #endif /* !MAINMENU_HH_ */
