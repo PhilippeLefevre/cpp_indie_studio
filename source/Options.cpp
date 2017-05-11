@@ -161,6 +161,7 @@ bool	Options::getEffects() const
   return (_effects);
 }
 
+
 void	Options::setVsync(bool vsync)
 {
   _vsync = vsync;
@@ -179,5 +180,4 @@ bool	Options::getAA() const
   return (_aa);
 }
 
-Options::~Options()
-{}
+Options::~Options() {}
