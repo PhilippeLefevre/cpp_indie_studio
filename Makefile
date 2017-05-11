@@ -6,7 +6,8 @@
 Target := IndieStudio
 # List of source files, separated by spaces
 Sources := ./source/main.cpp \
-	./source/MainMenu.cpp
+	./source/MainMenu.cpp \
+	./source/Options.cpp
 # Path to Irrlicht directory, should contain include/ and lib/
 IrrlichtHome := include/..
 # Path for the executable. Note that Irrlicht.dll should usually also be there for win32 systems
@@ -14,7 +15,7 @@ BinPath = ./
 
 # general compiler settings (might need to be set when compiling the lib, too)
 # preprocessor flags, e.g. defines and include paths
-USERCPPFLAGS = 
+USERCPPFLAGS =
 # compiler flags such as optimization flags
 USERCXXFLAGS = -O3 -ffast-math
 #USERCXXFLAGS = -g -Wall
@@ -64,4 +65,3 @@ endif
 ifeq ($(HOSTTYPE), sun4)
 LDFLAGS += -lrt
 endif
-

@@ -5,23 +5,20 @@
 ** Login	leliev_t
 **
 ** Started on	Tue May 09 18:40:29 2017 Tanguy Lelievre
-** Last update	Tue May 09 18:48:39 2017 Tanguy Lelievre
+** Last update	Thu May 11 18:00:35 2017 Tanguy Lelievre
 */
 
 #include "MainMenu.hh"
 
-MainMenu::MainMenu(bool f, bool m, bool s, bool a, bool v, bool fsaa, irr::video::E_DRIVER_TYPE d)
+MainMenu::MainMenu() : _opts()
 {
-  int x = 1900;
-  int y = 1080;
-
-  _params.WindowSize = irr::core::dimension2d<irr::u32>(x, y);
+  _params.WindowSize = irr::core::dimension2d<irr::u32>(_opts.getWidth(), _opts.getHeight());
   _params.Bits = 32;
-  _params.Fullscreen = f;
-  _params.Stencilbuffer = s;
-  _params.DriverType = d;
-  _params.Vsync = v;
-  _params.AntiAlias = a?8:0;
+  _params.Fullscreen = _opts.getFullscreen();
+  _params.Stencilbuffer = false;
+  _params.DriverType = irr::video::EDT_OPENGL;
+  _params.Vsync = _opts.getVsync();
+  _params.AntiAlias = _opts.getAA() ? 8 : 0;
   _params.EventReceiver = this;
 
   _Mdevice = createDeviceEx(_params);
@@ -47,7 +44,7 @@ enum
 
 
 bool	MainMenu::run()
-{  
+{
   irr::video::IVideoDriver* driver = _Mdevice->getVideoDriver();
   irr::scene::ISceneManager* smgr = _Mdevice->getSceneManager();
   irr::gui::IGUIEnvironment* guienv = _Mdevice->getGUIEnvironment();

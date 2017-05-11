@@ -5,7 +5,7 @@
 ** Login	leliev_t
 **
 ** Started on	Wed May 10 14:42:18 2017 Tanguy Lelievre
-** Last update	Thu May 11 15:52:54 2017 Tanguy Lelievre
+** Last update	Thu May 11 18:30:21 2017 Tanguy Lelievre
 */
 
 #include "Options.hh"
@@ -181,11 +181,3 @@ bool	Options::getAA() const
 
 Options::~Options()
 {}
-
-int     main()
-{
-  Options   opts;
-
-  std::cout << opts.getWidth() << std::endl;
-  return (0);
-}
