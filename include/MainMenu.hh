@@ -14,6 +14,7 @@
 # include <driverChoice.h>
 # include "irrlicht.h"
 # include "Options.hh"
+# include <ctime>
 
 class	MainMenu : public irr::IEventReceiver
 {
@@ -28,12 +29,13 @@ public:
   void	LoadGame();
   void	NewGame();
   void	Menu();
-
+  void	Display();
 private:
   Options	_opts;
 
   irr::SIrrlichtCreationParameters _params;
   irr::IrrlichtDevice *_Mdevice;
+  irr::core::dimension2d<irr::u32> _dim;
 
   irr::video::E_DRIVER_TYPE _driverType;
   irr::gui::IGUISkin* _skin;
@@ -44,7 +46,9 @@ private:
   irr::scene::ISceneManager* _smgr;
   irr::scene::IAnimatedMesh* _mesh;
   irr::scene::IAnimatedMeshSceneNode* _modelNode;
+  irr::scene::ISceneNodeAnimator* _ani;
 
+  irr::video::ITexture* _irrlichtBack;
   irr::gui::IGUIButton* _NewGame;
   irr::gui::IGUIButton* _Load;
   irr::gui::IGUIButton* _Score;
@@ -56,6 +60,13 @@ private:
   irr::gui::IGUIButton* _sound;
   irr::gui::IGUIButton* _shortc;
   irr::gui::IGUIButton* _back;
+
+  irr::gui::IGUIComboBox* _Resolution;
+  irr::gui::IGUICheckBox* _Fullscreen;
+  irr::gui::IGUICheckBox* _Sound;
+  irr::gui::IGUICheckBox* _Effects;
+  irr::gui::IGUICheckBox* _Vsync;
+  irr::gui::IGUICheckBox* _aa;
 };
 
 #endif /* !MAINMENU_HH_ */

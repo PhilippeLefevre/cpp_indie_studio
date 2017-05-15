@@ -8,7 +8,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Head.png
+map_Kd ./texture/Head.png
 
 
 newmtl bomb_Bomb.png
@@ -19,7 +19,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Bomb.png
+map_Kd ./texture/Bomb.png
 
 
 newmtl shoes_Shoes.png
@@ -30,7 +30,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Shoes.png
+map_Kd ./texture/Shoes.png
 
 
 newmtl body_Body.png
@@ -41,7 +41,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Body.png
+map_Kd ./texture/Body.png
 
 
 newmtl face_Face.png
@@ -52,7 +52,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Face.png
+map_Kd ./texture/Face.png
 
 
 newmtl bomb_tip_Bomb(Tip).png
@@ -63,6 +63,6 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Bomb(Tip).png
+map_Kd ./texture/Bomb(Tip).png
 
 

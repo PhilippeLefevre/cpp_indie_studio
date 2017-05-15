@@ -28,20 +28,6 @@ MainMenu::MainMenu() : _opts()
   _driver = _Mdevice->getVideoDriver();
   _smgr = _Mdevice->getSceneManager();
 
-  _mesh = _smgr->getMesh("./media/Bomberman/Bomberman/Bomberman.obj");
-  _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
-
-  if (_modelNode)
-    {
-      _modelNode->setPosition(irr::core::vector3df(0.f, -20.f, -20.f));
-      _modelNode->setRotation(irr::core::vector3df(0.10f, 50.f, 0.f));
-      _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-      _modelNode->setDebugDataVisible(irr::scene::EDS_OFF);
-      _modelNode->getMaterial(0).NormalizeNormals = true;
-      _modelNode->setFrameLoop(0, 14);
-      _modelNode->setAnimationSpeed(15);
-      _modelNode->setScale(_modelNode->getScale() * 8.0f);
-    }
   _guienv = _Mdevice->getGUIEnvironment();
 }
 
@@ -63,7 +49,27 @@ enum
 
 void	MainMenu::Menu()
 {
-  _NewGame = _guienv->addButton(irr::core::rect<irr::s32>(750,540,1150,540 + 60), 0, GUI_NEW_GAME_BUTTON, L"New Game");
+  _irrlichtBack = _driver->getTexture("./media/Backgrounds/bck.jpg");
+  _logo_img = _guienv->addImage(_driver->getTexture("./media/Logos/blogo.png"), irr::core::position2d<int>(300, 80));
+
+  _mesh = _smgr->getMesh("./media/Bomberman/Bomberman/Bomberman.obj");
+  _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
+
+  if (_modelNode)
+    {
+      _modelNode->setPosition(irr::core::vector3df(0.f, -20.f, -20.f));
+      _modelNode->setRotation(irr::core::vector3df(0.10f, 50.f, 0.f));
+      _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+      _modelNode->setDebugDataVisible(irr::scene::EDS_OFF);
+      _modelNode->getMaterial(0).NormalizeNormals = true;
+      _modelNode->setFrameLoop(0, 14);
+      _modelNode->setAnimationSpeed(15);
+      _modelNode->setScale(_modelNode->getScale() * 8.0f);
+    }
+
+  _smgr->addCameraSceneNode(0, irr::core::vector3df(45,0,0), irr::core::vector3df(0,0,10));
+  _dim = _guienv->getVideoDriver()->getScreenSize();
+  _NewGame = _guienv->addButton(irr::core::rect<irr::s32>(750, 540, 1150, 540 + 60), 0, GUI_NEW_GAME_BUTTON, L"New Game");
   _NewGame->setDrawBorder(0);
   _Load = _guienv->addButton(irr::core::rect<irr::s32>(750,610,1150,610 + 60), 0, GUI_LOAD_GAME_BUTTON, L"Load Game");
   _Load->setDrawBorder(0);
@@ -82,13 +88,12 @@ bool	MainMenu::run()
   str += _Mdevice->getVersion();
   _Mdevice->setWindowCaption(str.c_str());
 
-  _Mdevice->getFileSystem()->addFileArchive("./media/");
-  _logo_img = _guienv->addImage(_driver->getTexture("./media/blogo.png"), irr::core::position2d<int>(300, 80));
+  _logo_img = _guienv->addImage(_driver->getTexture("./media/Logos/blogo.png"), irr::core::position2d<int>(300, 80));
 
   _skin = _guienv->getSkin();
-  _font = _guienv->getFont("./media/fonts/fonts.xml");
-  irr::video::ITexture* irrlichtBack = _driver->getTexture(".media/bck.jpg");
-  
+  _font = _guienv->getFont("./media/fonts/editundo.png");
+  _irrlichtBack = _driver->getTexture("./media/Backgrounds/bck.jpg");
+
   if (_font)
     {
       _guienv->getSkin()->setFont(_font);
@@ -101,8 +106,8 @@ bool	MainMenu::run()
       if (_Mdevice->isWindowActive())
 	{
 	  _driver->beginScene(true, true, irr::video::SColor(255,255,255,255));
-	  if (irrlichtBack)
-	    _driver->draw2DImage(irrlichtBack, irr::core::position2d<int>(0,0));
+	  if (_irrlichtBack)
+	    _driver->draw2DImage(_irrlichtBack, irr::core::position2d<int>(0,0));
 	  _smgr->drawAll();
 	  _guienv->drawAll();
 	  _driver->endScene();
@@ -115,10 +120,12 @@ bool	MainMenu::run()
 
 void	MainMenu::GOptions()
 {
-  Options opt;
-
+  _Mdevice->sleep(300);
   _guienv->clear();
+  _smgr->clear();
 
+  _irrlichtBack = _driver->getTexture("./media/Backgrounds/OptionsBck.jpg");
+  _dim = _guienv->getVideoDriver()->getScreenSize();
   _Tatata = _guienv->addButton(irr::core::rect<irr::s32>(750,540,1150,540 + 60), 0, GUI_TATATA_GAME_BUTTON, L"Tatata");
   _Tatata->setDrawBorder(0);
   _display = _guienv->addButton(irr::core::rect<irr::s32>(750,610,1150,610 + 60), 0, GUI_DISPLAY_GAME_BUTTON, L"Display");
@@ -129,6 +136,14 @@ void	MainMenu::GOptions()
   _shortc->setDrawBorder(0);
   _back = _guienv->addButton(irr::core::rect<irr::s32>(750, 820, 1150, 820 + 60), 0, GUI_BACK_GAME_BUTTON, L"Back");
   _back->setDrawBorder(0);
+}
+
+void	MainMenu::Display()
+{
+  _guienv->clear();
+
+  _dim = _guienv->getVideoDriver()->getScreenSize();
+  _Resolution = _guienv->addComboBox(irr::core::rect<irr::s32>( _dim.Width - 300, 24, _dim.Width - 10, 40 ));
 }
 
 bool	MainMenu::OnEvent(const irr::SEvent &event)
@@ -144,7 +159,132 @@ bool	MainMenu::OnEvent(const irr::SEvent &event)
 	  switch(id)
 	    {
 	    case GUI_NEW_GAME_BUTTON:
-	      _skin->setColor(irr::gui::EGDC_BUTTON_TEXT, irr::video::SColor(255, 0, 255, 0));
+	      _font = _guienv->getFont("./media/fonts/editundo_green.png");
+	      _NewGame->setOverrideFont(_font);
+	      _mesh = _smgr->getMesh("./media/Bombs/FireBomb/Bomb.obj");
+	      _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
+	      _ani = _smgr->createRotationAnimator(irr::core::vector3df(0,1,0));
+	      _modelNode->addAnimator(_ani);
+	      if (_modelNode)
+		{
+		  _modelNode->setPosition(irr::core::vector3df(-30.f, -6.5f, 36.f));
+		  _modelNode->setRotation(irr::core::vector3df(0.f, 0.f, 0.f));
+		  _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		  _modelNode->setScale(_modelNode->getScale() * 0.50f);
+		}
+	      return true;
+	      break;
+
+	    case GUI_LOAD_GAME_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo_green.png");
+	      _Load->setOverrideFont(_font);
+	      _mesh = _smgr->getMesh("./media/Bombs/AquaBomb/AquaBomb.obj");
+	      _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
+	      _ani = _smgr->createRotationAnimator(irr::core::vector3df(0,1,0));
+	      _modelNode->addAnimator(_ani);
+	      if (_modelNode)
+		{
+		  _modelNode->setPosition(irr::core::vector3df(-30.f, -14.5f, 36.f));
+		  _modelNode->setRotation(irr::core::vector3df(0.f, 0.f, 0.f));
+		  _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		  _modelNode->setScale(_modelNode->getScale() * 0.50f);
+		}
+	      return true;
+	      break;
+
+	    case GUI_SCORE_GAME_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo_green.png");
+	      _Score->setOverrideFont(_font);
+	      _mesh = _smgr->getMesh("./media/Bombs/IceBomb/IceBomb.obj");
+	      _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
+	      _ani = _smgr->createRotationAnimator(irr::core::vector3df(0,1,0));
+	      _modelNode->addAnimator(_ani);
+	      if (_modelNode)
+		{
+		  _modelNode->setPosition(irr::core::vector3df(-30.f, -22.5f, 36.f));
+		  _modelNode->setRotation(irr::core::vector3df(0.f, 0.f, 0.f));
+		  _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		  _modelNode->setScale(_modelNode->getScale() * 0.50f);
+		}
+	      return true;
+	      break;
+
+	    case GUI_OPTION_GAME_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo_green.png");
+	      _Options->setOverrideFont(_font);
+	      _mesh = _smgr->getMesh("./media/Bombs/PowerBomb/PowerBomb.obj");
+	      _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
+	      _ani = _smgr->createRotationAnimator(irr::core::vector3df(0,1,0));
+	      _modelNode->addAnimator(_ani);
+	      if (_modelNode)
+		{
+		  _modelNode->setPosition(irr::core::vector3df(-30.f, -30.5f, 36.f));
+		  _modelNode->setRotation(irr::core::vector3df(0.f, 0.f, 0.f));
+		  _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		  _modelNode->setScale(_modelNode->getScale() * 0.50f);
+		}
+	      return true;
+	      break;
+
+	    case GUI_ID_QUIT_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo_green.png");
+	      _Exit->setOverrideFont(_font);
+	      _mesh = _smgr->getMesh("./media/Bombs/MegaBomb/MegaBomb.obj");
+	      _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
+	      _ani = _smgr->createRotationAnimator(irr::core::vector3df(0,1,0));
+	      _modelNode->addAnimator(_ani);
+	      if (_modelNode)
+		{
+		  _modelNode->setPosition(irr::core::vector3df(-30.f, -38.5f, 36.f));
+		  _modelNode->setRotation(irr::core::vector3df(0.f, -10.f, 30.f));
+		  _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		  _modelNode->setScale(_modelNode->getScale() * 0.50f);
+		}
+	      return true;
+	      break;
+	    }
+	  break;
+
+	case irr::gui::EGBS_BUTTON_MOUSE_OFF:
+	  switch(id)
+	    {
+	    case GUI_NEW_GAME_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo.png");
+	      _NewGame->setOverrideFont(_font);
+	      _ani->drop();
+	      _smgr->addToDeletionQueue(_modelNode);
+	      return true;
+	      break;
+
+	    case GUI_LOAD_GAME_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo.png");
+	      _Load->setOverrideFont(_font);
+	      _ani->drop();
+	      _smgr->addToDeletionQueue(_modelNode);
+	      return true;
+	      break;
+
+	    case GUI_SCORE_GAME_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo.png");
+	      _Score->setOverrideFont(_font);
+	      _ani->drop();
+	      _smgr->addToDeletionQueue(_modelNode);
+	      return true;
+	      break;
+
+	    case GUI_OPTION_GAME_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo.png");
+	      _Options->setOverrideFont(_font);
+	      _ani->drop();
+	      _smgr->addToDeletionQueue(_modelNode);
+	      return true;
+	      break;
+
+	    case GUI_ID_QUIT_BUTTON:
+	      _font = _guienv->getFont("./media/fonts/editundo.png");
+	      _Exit->setOverrideFont(_font);
+	      _ani->drop();
+	      _smgr->addToDeletionQueue(_modelNode);
 	      return true;
 	      break;
 	    }
@@ -168,6 +308,7 @@ bool	MainMenu::OnEvent(const irr::SEvent &event)
 	    case GUI_TATATA_GAME_BUTTON:
 	      break;
 	    case GUI_DISPLAY_GAME_BUTTON:
+	      Display();
 	      break;
 	    case GUI_SOUND_GAME_BUTTON:
 	      break;
