@@ -10,7 +10,7 @@
 
 #include "Options.hh"
 
-Options::Options() : _fullscreen(false), _width(1920), _height(1080),
+Options::Options() : _fullscreen(false), _width(1600), _height(900),
   _sound(true), _music(true), _effects(true), _vsync(true), _aa(0)
 {
   std::ifstream   ifs("display.conf");

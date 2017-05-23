@@ -52,23 +52,22 @@ void	MainMenu::Menu()
   _irrlichtBack = _driver->getTexture("./media/Backgrounds/bck.jpg");
   _logo_img = _guienv->addImage(_driver->getTexture("./media/Logos/blogo.png"), irr::core::position2d<int>(300, 80));
 
-  _mesh = _smgr->getMesh("./media/Bomberman/Bomberman/Bomberman.obj");
+  _mesh = _smgr->getMesh("./media/knight/source/knight.b3d");
   _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
 
   if (_modelNode)
     {
       _modelNode->setPosition(irr::core::vector3df(0.f, -20.f, -20.f));
-      _modelNode->setRotation(irr::core::vector3df(0.10f, 50.f, 0.f));
+      _modelNode->setRotation(irr::core::vector3df(0.10f, -130.f, 0.f));
+      _modelNode->setMaterialTexture(0, _driver->getTexture("media/knight/textures/Diffuse1024.jpg"));
       _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-      _modelNode->setDebugDataVisible(irr::scene::EDS_OFF);
-      _modelNode->getMaterial(0).NormalizeNormals = true;
-      _modelNode->setFrameLoop(0, 14);
-      _modelNode->setAnimationSpeed(15);
-      _modelNode->setScale(_modelNode->getScale() * 8.0f);
+      _modelNode->setScale(_modelNode->getScale() * 150.0f);
+      _modelNode->setFrameLoop(1, 50);
+      _modelNode->setAnimationSpeed(30);
     }
 
   _smgr->addCameraSceneNode(0, irr::core::vector3df(45,0,0), irr::core::vector3df(0,0,10));
-  _dim = _guienv->getVideoDriver()->getScreenSize();
+
   _NewGame = _guienv->addButton(irr::core::rect<irr::s32>(750, 540, 1150, 540 + 60), 0, GUI_NEW_GAME_BUTTON, L"New Game");
   _NewGame->setDrawBorder(0);
   _Load = _guienv->addButton(irr::core::rect<irr::s32>(750,610,1150,610 + 60), 0, GUI_LOAD_GAME_BUTTON, L"Load Game");
@@ -120,7 +119,6 @@ bool	MainMenu::run()
 
 void	MainMenu::GOptions()
 {
-  _Mdevice->sleep(300);
   _guienv->clear();
   _smgr->clear();
 
@@ -143,7 +141,7 @@ void	MainMenu::Display()
   _guienv->clear();
 
   _dim = _guienv->getVideoDriver()->getScreenSize();
-  _Resolution = _guienv->addComboBox(irr::core::rect<irr::s32>( _dim.Width - 300, 24, _dim.Width - 10, 40 ));
+  _Resolution = _guienv->addComboBox(irr::core::rect<irr::s32>( _dim.Width - 400, 70, _dim.Width - 10, 40 ));
 }
 
 bool	MainMenu::OnEvent(const irr::SEvent &event)
@@ -161,6 +159,7 @@ bool	MainMenu::OnEvent(const irr::SEvent &event)
 	    case GUI_NEW_GAME_BUTTON:
 	      _font = _guienv->getFont("./media/fonts/editundo_green.png");
 	      _NewGame->setOverrideFont(_font);
+
 	      _mesh = _smgr->getMesh("./media/Bombs/FireBomb/Bomb.obj");
 	      _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
 	      _ani = _smgr->createRotationAnimator(irr::core::vector3df(0,1,0));

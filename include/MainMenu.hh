@@ -43,6 +43,7 @@ private:
 
   irr::video::IVideoDriver* _driver;
   irr::gui::IGUIEnvironment* _guienv;
+  irr::gui::IGUIElement* _elem;
   irr::scene::ISceneManager* _smgr;
   irr::scene::IAnimatedMesh* _mesh;
   irr::scene::IAnimatedMeshSceneNode* _modelNode;
