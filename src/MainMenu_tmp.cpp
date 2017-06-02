@@ -25,6 +25,7 @@ MainMenu::MainMenu() : _opts()
   if (!_Mdevice)
     return;
 
+  _Mdevice->setResizable(false);
   _driver = _Mdevice->getVideoDriver();
   _smgr = _Mdevice->getSceneManager();
 
@@ -49,7 +50,9 @@ enum
   GUI_YES_GAME_BUTTON,
   GUI_NO_GAME_BUTTON,
   GUI_SCROLL_BAR,
-  GUI_RES_BUTTON
+  GUI_RES_BUTTON,
+  GUI_FULL_BOX,
+  GUI_SPLAYER_E
 };
 
 void	MainMenu::Menu()
@@ -113,7 +116,7 @@ void	MainMenu::Menu()
   _driver->makeColorKeyTexture(images, irr::core::position2d<irr::s32>(0,0));
   
   irr::core::rect<irr::s32> imp1(25,0,570,220);
-  irr::core::rect<irr::s32> imp2(580,0,1128,220);
+  irr::core::rect<irr::s32> imp2(590,0,1138,220);
 
   _driver->getMaterial2D().TextureLayer[0].BilinearFilter=true;
   _driver->getMaterial2D().AntiAliasing=irr::video::EAAM_FULL_BASIC;
@@ -160,15 +163,25 @@ void	MainMenu::NGame()
 {
   _guienv->clear();
   _smgr->clear();
-  _guienv->addStaticText(L"Players:", irr::core::rect<irr::s32>(_dim.Width - 1690, 130, _dim.Height - 550, 200));
-  _guienv->addStaticText(L"IA:", irr::core::rect<irr::s32>(_dim.Width - 760, 130, _dim.Height + 380, 200));
-  _guienv->addStaticText(L"Maps:", irr::core::rect<irr::s32>(_dim.Width - 1190, 410, _dim.Height - 130, 480));
-  _Players = _guienv->addComboBox(irr::core::rect<irr::s32>( _dim.Width - 1330, 130, _dim.Height - 390, 200));
-  _Players->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
-  _IA = _guienv->addComboBox(irr::core::rect<irr::s32>( _dim.Width - 400, 130, _dim.Height + 540, 200));
-  _IA->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
+  _guienv->addStaticText(L"Players:", irr::core::rect<irr::s32>(_dim.Width - 1550, 390, _dim.Height - 450, 430));
+  _guienv->addStaticText(L"IA:", irr::core::rect<irr::s32>(_dim.Width - 1550, 460, _dim.Height - 530, 500));
+  _guienv->addStaticText(L"Maps:", irr::core::rect<irr::s32>(_dim.Width - 1550, 530, _dim.Height - 520, 570));
 
-  _Maps = _guienv->addListBox(irr::core::rect<irr::s32>(_dim.Width - 1580, 540, _dim.Height + 240, 830));
+  _Players = _guienv->addComboBox(irr::core::rect<irr::s32>( _dim.Width - 1240, 390, _dim.Height - 330, 433), 0, GUI_SPLAYER_E);
+  _IA = _guienv->addComboBox(irr::core::rect<irr::s32>( _dim.Width - 1370, 460, _dim.Height - 460, 503));
+
+  irr::core::stringw s = "1";
+  for (irr::u32 i = 0; i < 4; i++)
+    {
+      _Players->addItem(s.c_str(), i);
+      _Players->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
+
+      _IA->addItem(s.c_str(), i);
+      _IA->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
+      s += 1;
+    }
+
+  _Maps = _guienv->addListBox(irr::core::rect<irr::s32>(_dim.Width - 1550, 590, _dim.Height + 130, 970));
 
   if (_Maps)
     {
@@ -176,7 +189,7 @@ void	MainMenu::NGame()
 
       irr::gui::IGUISpriteBank *bank;
       if ( 0 == bank )
-	bank = _Mdevice->getGUIEnvironment()->addEmptySpriteBank("");
+  	bank = _Mdevice->getGUIEnvironment()->addEmptySpriteBank("");
 
       irr::gui::SGUISprite sprite;
       irr::gui::SGUISpriteFrame frame;
@@ -186,26 +199,26 @@ void	MainMenu::NGame()
       irr::core::dimension2du dim ( 128, 128 );
 
       bank->getSprites().clear();
-      bank->getPositions().clear ();
+      bank->getPositions().clear();
       _Maps->setSpriteBank ( bank );
 
       irr::u32 g = 0;
       irr::core::stringw s;
 
-      s = " ./media/map.jpg";
+      s = " Deffault MAP";
       image = _driver->createImageFromFile("./media/map.jpg");
       if (image)
-	{
-	  irr::video::IImage* filter = _driver->createImage ( irr::video::ECF_R8G8B8, dim );
-	  image->copyToScalingBoxFilter ( filter, 0 );
-	  image->drop ();
-	  image = filter;
-	}
+  	{
+  	  irr::video::IImage* filter = _driver->createImage ( irr::video::ECF_R8G8B8, dim );
+  	  image->copyToScalingBoxFilter ( filter, 0 );
+  	  image->drop ();
+  	  image = filter;
+  	}
       if ( image )
-	{
-	  tex = _driver->addTexture ("./media/map.jpg", image );
-	  image->drop ();
-	}
+  	{
+  	  tex = _driver->addTexture ("./media/map.jpg", image );
+  	  image->drop ();
+  	}
       bank->setTexture ( g, tex );
       r.LowerRightCorner.X = dim.Width;
       r.LowerRightCorner.Y = dim.Height;
@@ -220,6 +233,10 @@ void	MainMenu::NGame()
       sprite.frameTime = 0;
       bank->getSprites().push_back(sprite);
 
+      _Maps->addItem ( s.c_str (), g );
+      _Maps->addItem ( s.c_str (), g );
+      _Maps->addItem ( s.c_str (), g );
+      _Maps->addItem ( s.c_str (), g );
       _Maps->addItem ( s.c_str (), g );
       g += 1;
     }
@@ -332,25 +349,35 @@ void	MainMenu::GOptions()
   _guienv->addStaticText(L"Music", irr::core::rect<irr::s32>(_dim.Width - 1340, 730, _dim.Height - 270, 770));
   _guienv->addStaticText(L"Effects", irr::core::rect<irr::s32>(_dim.Width - 1340, 790, _dim.Height - 270, 830));
 
-  _guienv->addCheckBox(false, irr::core::rect<irr::s32>(_dim.Width - 870, 400, _dim.Height - 10, 470));
+  _FScreen = _guienv->addCheckBox(_params.Fullscreen, irr::core::rect<irr::s32>(_dim.Width - 870, 400, _dim.Height - 10, 470), 0, GUI_FULL_BOX);
   _guienv->addCheckBox(false, irr::core::rect<irr::s32>(_dim.Width - 870, 460, _dim.Height - 10, 530));
   _guienv->addCheckBox(false, irr::core::rect<irr::s32>(_dim.Width - 870, 520, _dim.Height - 10, 590));
-  // _Yes = _guienv->addButton(irr::core::rect<irr::s32>(_dim.Width - 960, 430, _dim.Height - 20 , 470), 0, GUI_YES_GAME_BUTTON, L"Yes");
-  // _Yes->setDrawBorder(0);
-  // _No = _guienv->addButton(irr::core::rect<irr::s32>(_dim.Width - 830, 430, _dim.Height + 110 , 470), 0, GUI_NO_GAME_BUTTON, L"No");
-  // _No->setDrawBorder(0);
 
   _Resolution = _guienv->addComboBox(irr::core::rect<irr::s32>( _dim.Width - 980, 360, _dim.Height + 150, 400 ), 0, GUI_RES_BUTTON);
   _Resolution->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
-  //_SSound = _guienv->addScrollBar(true, irr::core::rect<irr::s32>( _dim.Width - 880, 510, _dim.Height - 10, 540 ), 0, GUI_SCROLL_BAR);
+
   irr::f32	SoundValue = 1.f;
 
-  // _SSound->setMin ( 0 );
-  // _SSound->setMax ( 100 );
-  // _SSound->setSmallStep ( 1 );
-  // _SSound->setLargeStep ( 10 );
-  // _SSound->setPos ( irr::core::floor32 ( SoundValue * 100.f ) );
-  // _Mdevice->setGammaRamp ( SoundValue, SoundValue, SoundValue, 0.f, 0.f );
+  _SSound = _guienv->addScrollBar(true, irr::core::rect<irr::s32>( _dim.Width - 980, 680, _dim.Height + 150, 709 ), 0, GUI_SCROLL_BAR);
+  _SSound->setMin ( 0 );
+  _SSound->setMax ( 100 );
+  _SSound->setSmallStep ( 1 );
+  _SSound->setLargeStep ( 10 );
+  _SSound->setPos ( irr::core::floor32 ( SoundValue * 50.f ) );
+  _SMusic = _guienv->addScrollBar(true, irr::core::rect<irr::s32>( _dim.Width - 980, 740, _dim.Height + 150, 769 ), 0, GUI_SCROLL_BAR);
+  _SMusic->setMin ( 0 );
+  _SMusic->setMax ( 100 );
+  _SMusic->setSmallStep ( 1 );
+  _SMusic->setLargeStep ( 10 );
+  _SMusic->setPos ( irr::core::floor32 ( SoundValue * 50.f ) );
+  _SEffects = _guienv->addScrollBar(true, irr::core::rect<irr::s32>( _dim.Width - 980, 800, _dim.Height + 150, 829 ), 0, GUI_SCROLL_BAR);
+  _SEffects->setMin ( 0 );
+  _SEffects->setMax ( 100 );
+  _SEffects->setSmallStep ( 1 );
+  _SEffects->setLargeStep ( 10 );
+  _SEffects->setPos ( irr::core::floor32 ( SoundValue * 50.f ) );
+  
+  //_Mdevice->setGammaRamp ( SoundValue, SoundValue, SoundValue, 0.f, 0.f );
   irr::video::IVideoModeList* vml = _Mdevice->getVideoModeList();
   for (irr::u32 i = 0; i < vml->getVideoModeCount(); i++)
     {
@@ -543,16 +570,6 @@ bool	MainMenu::OnEvent(const irr::SEvent &event)
 	    case GUI_APPLY_GAME_BUTTON:
 	      return true;
 	      break;
-	    case GUI_YES_GAME_BUTTON:
-	      _font = _guienv->getFont("./media/fonts/editundo_green.png");
-	      _Yes->setOverrideFont(_font);
-	      return true;
-	      break;
-	    case GUI_NO_GAME_BUTTON:
-	      _font = _guienv->getFont("./media/fonts/editundo_green.png");
-	      _No->setOverrideFont(_font);
-	      return true;
-	      break;
 	    }
 
 	case irr::gui::EGET_SCROLL_BAR_CHANGED:
@@ -567,14 +584,27 @@ bool	MainMenu::OnEvent(const irr::SEvent &event)
 	case irr::gui::EGET_COMBO_BOX_CHANGED:
 	  switch(id)
 	    {
-	    case GUI_RES_BUTTON:
-	      irr::u32 val = _Resolution->getItemData (_Resolution->getSelected());
-	      _opts.setWidth(val >> 16);
-	      _opts.setHeight(val & 0xFFFF);
-	      _params.WindowSize = irr::core::dimension2d<irr::u32>(_opts.getWidth(), _opts.getHeight());
+	    case GUI_SPLAYER_E:
+	      _mesh = _smgr->getMesh("./media/knight/source/knight.b3d");
+	      _modelNode = _smgr->addAnimatedMeshSceneNode(_mesh);
+	      if (_modelNode)
+		{
+		  _modelNode->setPosition(irr::core::vector3df(-30.f, -38.5f, 36.f));
+		  _modelNode->setRotation(irr::core::vector3df(0.f, -10.f, 30.f));
+		  _modelNode->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+		  _modelNode->setScale(_modelNode->getScale() * 0.50f);
+		}
 	      return true;
 	      break;
 	    }
+	case irr::gui::EGET_CHECKBOX_CHANGED:
+	  switch(id)
+	      {
+	      case GUI_FULL_BOX:
+		_params.Fullscreen = _FScreen->isChecked();
+		return true;
+		break;
+	      }
 	default:
 	  break;
 	}
