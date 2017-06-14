@@ -5,13 +5,14 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Wed Jun 14 12:22:25 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:30:02 2017 Philippe Lefevre
 //
 
 #ifndef NORMAL_HPP_
 # define NORMAL_HPP_
 
 # include "IBomb.hpp"
+# include "PlayerCharacter.hpp"
 
 namespace indie
 {
@@ -22,9 +23,10 @@ namespace indie
                 scene::ISceneManager *_scnMngr;
                 video::IVideoDriver* _driver;
                 core::vector3df _pos;
+                indie::PlayerCharacter *_owner;
                 bool _explosed;
         public:
-                Normal(scene::ISceneManager*, core::vector3df, video::IVideoDriver*);
+                Normal(scene::ISceneManager*, core::vector3df, video::IVideoDriver*, indie::PlayerCharacter*);
                 ~Normal(void);
                 Normal(const Normal &obj);
                 Normal &operator=(const Normal &obj);
@@ -36,7 +38,7 @@ namespace indie
                 core::aabbox3df const getBoundingBox(void) const;
                 bool isColliding(core::aabbox3df const& box) const;
                 bool isExplosed(void) const;
-                void Explose(void);
+                void Explose(std::vector<indie::IEntity*> const&);
         };
 }
 

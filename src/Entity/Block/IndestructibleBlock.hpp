@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Wed Jun 14 10:01:09 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:05:14 2017 Philippe Lefevre
 //
 
 #ifndef INDESTRUCTIBLEBLOCK_HPP_
@@ -34,6 +34,7 @@ namespace indie
                 core::vector3df const& getRotation(void) const;
                 core::aabbox3df const getBoundingBox(void) const;
                 bool isColliding(core::aabbox3df const& box) const;
+                bool isExplosible(void) const;
         };
 }
 

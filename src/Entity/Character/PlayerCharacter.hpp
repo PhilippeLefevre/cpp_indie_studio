@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Wed Jun 14 12:32:27 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:34:55 2017 Philippe Lefevre
 //
 
 #ifndef PLAYERCHARACTER_HPP_
@@ -43,7 +43,8 @@ namespace indie
                 bool isColliding(core::aabbox3df const& box) const;
                 bool isExplosed(void) const;
                 void Explose(void);
-                bool Move(const f32, std::vector<indie::IEntity*> const&, std::vector<indie::IEntity*> const&);
+                bool Move(const f32, std::vector<indie::IEntity*> const&, std::vector<indie::IEntity*>*);
+                void giveBomb(unsigned int);
         };
 }
 

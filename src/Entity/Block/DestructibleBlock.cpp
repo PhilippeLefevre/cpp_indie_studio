@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 09:51:20 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:06:45 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -101,4 +101,9 @@ void indie::DestructibleBlock::Explose(void)
         _explosed = true;
         _pos.Y -= 20;
         setPosition(_pos);
+}
+
+bool indie::DestructibleBlock::isExplosible(void) const
+{
+        return (!isExplosed());
 }

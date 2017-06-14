@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 09:50:35 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:05:43 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -91,4 +91,9 @@ core::aabbox3df const indie::IndestructibleBlock::getBoundingBox(void) const
 bool indie::IndestructibleBlock::isColliding(core::aabbox3df const& box) const
 {
         return (box.intersectsWithBox(getBoundingBox()));
+}
+
+bool indie::IndestructibleBlock::isExplosible(void) const
+{
+        return (false);
 }

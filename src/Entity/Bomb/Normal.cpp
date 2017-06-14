@@ -5,19 +5,22 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 12:25:16 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:35:47 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
+#include "IBlock.hpp"
+#include "DestructibleBlock.hpp"
 #include "Normal.hpp"
 
-indie::Normal::Normal(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver) : _scnMngr(scnMngr), _pos(pos), _driver(driver)
+indie::Normal::Normal(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, indie::PlayerCharacter *owner) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _owner(owner)
 {
         std::string txt = "../../media/Bombs/MegaBomb/MegaBomb.obj";
         _mesh = _scnMngr->addMeshSceneNode(_scnMngr->getMesh(txt.data()));
         if (_mesh)
         {
                 _mesh->setScale(core::vector3df(0.7f, 0.7f, 0.7f));
+                _mesh->setPosition(_pos);
                 _mesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         }
         else
@@ -89,9 +92,22 @@ bool indie::Normal::isExplosed(void) const
         return (_explosed);
 }
 
-void indie::Normal::Explose(void)
+void indie::Normal::Explose(std::vector<indie::IEntity*> const& block)
 {
+        for (indie::IEntity *w : block)
+        {
+                f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
+                if (dist < 11)
+                {
+                        if (((indie::IBlock*)w)->isExplosible())
+                        {
+                                ((indie::DestructibleBlock*)w)->Explose();
+                        }
+                }
+        }
+        _owner->giveBomb(1);
         _explosed = true;
         _pos.Y -= 20;
         setPosition(_pos);
+        //~Normal();
 }

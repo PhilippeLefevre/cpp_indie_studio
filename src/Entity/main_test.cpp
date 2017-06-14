@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:13:36 2017 Philippe Lefevre
-// Last update Wed Jun 14 12:31:35 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:30:53 2017 Philippe Lefevre
 //
 
 #include "IndestructibleBlock.hpp"
@@ -69,8 +69,6 @@ int	main(void)
                                 case indie::EntityType::NPC_TWO: character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver)); break;
                                 case indie::EntityType::NPC_THREE: character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver)); break;
                                 case indie::EntityType::NPC_FOUR: character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver)); break;
-                                case indie::EntityType::BOMB_NORMAL: bomb.push_back(new indie::Normal(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver)); break;
-                                case indie::EntityType::BOMB_NUKE: block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, false)); break;
                                 case indie::EntityType::POWERUP_BOMBUP: block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, false)); break;
                                 case indie::EntityType::POWERUP_SPEED: block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, false)); break;
                                 case indie::EntityType::POWERUP_VEST: block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, false)); break;
@@ -95,15 +93,11 @@ int	main(void)
                 then = now;
                 for (indie::IEntity *w : character)
                 {
-                        bool status = ((indie::ICharacter*)w)->Move(fps, block, bomb);
-                        if (status == true)
-                        {
-                                //core::vector3df pos = ((indie::ICharacter*)w)->getPosition();
-                                //int x, z;
-                                //x = (pos.X / 10);
-                                //z = (pos.Z / 10);
-                                //bomb.push_back(new indie::Normal(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver));
-                        }
+                        bool status = ((indie::ICharacter*)w)->Move(fps, block, &bomb);
+                }
+                for (indie::IEntity *w : bomb)
+                {
+                        ((indie::IBomb*)w)->Explose(block);
                 }
                 _driver->beginScene(true, true, video::SColor(255, 113, 113, 133));
                 _sceneManager->drawAll();

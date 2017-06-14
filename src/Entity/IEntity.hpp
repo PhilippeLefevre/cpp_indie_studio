@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 11 01:44:50 2017 Philippe Lefevre
-// Last update Wed Jun 14 09:04:55 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:14:39 2017 Philippe Lefevre
 //
 
 #ifndef IENTITY_HPP_
@@ -13,6 +13,7 @@
 
 # include <irrlicht.h>
 # include <iostream>
+# include <vector>
 
 using namespace irr;
 

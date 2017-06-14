@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 11 02:04:03 2017 Philippe Lefevre
-// Last update Wed Jun 14 11:48:26 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:20:55 2017 Philippe Lefevre
 //
 
 
@@ -26,6 +26,8 @@ namespace indie
                 virtual core::vector3df const& getRotation(void) const = 0;
                 virtual core::aabbox3df const getBoundingBox(void) const = 0;
                 virtual bool isColliding(core::aabbox3df const& box) const = 0;
+                virtual bool isExplosed(void) const = 0;
+                virtual void Explose(std::vector<indie::IEntity*> const&) = 0;
         };
 }
 

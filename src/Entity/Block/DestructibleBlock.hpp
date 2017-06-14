@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Wed Jun 14 10:00:58 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:06:03 2017 Philippe Lefevre
 //
 
 #ifndef DESTRUCTIBLEBLOCK_HPP_
@@ -36,6 +36,7 @@ namespace indie
                 core::aabbox3df const getBoundingBox(void) const;
                 bool isColliding(core::aabbox3df const& box) const;
                 bool isExplosed(void) const;
+                bool isExplosible(void) const;
                 void Explose(void);
         };
 }

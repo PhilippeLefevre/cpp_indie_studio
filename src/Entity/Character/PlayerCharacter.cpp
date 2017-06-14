@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 16:06:06 2017 Philippe Lefevre
+// Last update Wed Jun 14 18:33:51 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -108,7 +108,7 @@ void indie::PlayerCharacter::Explose(void)
         setPosition(_pos);
 }
 
-bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> const& block, std::vector<indie::IEntity*> const& bomb)
+bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> const& block, std::vector<indie::IEntity*>*bomb)
 {
         core::vector3df oldPos;
 
@@ -144,14 +144,18 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
         {
                 if (_bomb > 0)
                 {
-                        std::cout << "true" << std::endl;
+                        int x, z;
+                        x = (_pos.X / 10);
+                        z = (_pos.Z / 10);
+                        bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver, this));
+                        _bomb--;
                         return (true);
                 }
-                int x, z;
-                x = (_pos.X / 10);
-                z = (_pos.Z / 10);
-                //bomb.push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver));
         }
-        std::cout << "false" << std::endl;
         return (false);
+}
+
+void indie::PlayerCharacter::giveBomb(unsigned int bomb)
+{
+        _bomb += bomb;
 }
