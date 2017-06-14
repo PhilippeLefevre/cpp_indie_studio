@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed May 31 09:47:49 2017 Philippe Lefevre
-// Last update Fri Jun  9 01:27:22 2017 Philippe Lefevre
+// Last update Wed Jun 14 06:59:32 2017 Philippe Lefevre
 //
 
 #include <irrlicht.h>
@@ -69,37 +69,41 @@ Game::Game()
         {
                 for (size_t y = 0; y < 15; y++)
                 {
+                        t_tile *tmp = new t_tile;
+                        //tmp
+                        //_myMap.push_back(tmp);
                         _ground.push_back(_sceneManager->addCubeSceneNode(10.0f, 0, -1, core::vector3df((x * 10.0f), -80.0f, (y * 10.0f))));
-                        _ground.back()->setMaterialTexture(0, _driver->getTexture("media/texture.bmp"));
+                        //_ground.back()->setMaterialTexture(0, _driver->getTexture("media/texture.bmp"));
                         _ground.back()->setMaterialFlag(video::EMF_LIGHTING, false);
                         if (x == 0 || x == 14 || y == 0 || y == 14)
                         {
                                 _wall.push_back(_sceneManager->addCubeSceneNode(10.0f, 0, -1, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f))));
-                                _wall.back()->setMaterialFlag(video::EMF_LIGHTING, false);
-                                _wall.back()->setMaterialTexture(0, _driver->getTexture("media/texture.bmp"));
+                                _wall.back()->setMaterialFlag(video::EMF_LIGHTING, true);
+                                //_wall.back()->setMaterialTexture(0, _driver->getTexture("media/texture.bmp"));
                         }
                         else if (_map[x][y] == 1)
                         {
                                 _wall.push_back(_sceneManager->addCubeSceneNode(10.0f, 0, -1, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f))));
-                                _ground.back()->setMaterialTexture(0, _driver->getTexture("media/texture.bmp"));
                                 _wall.back()->setMaterialFlag(video::EMF_LIGHTING, true);
+                                _ground.back()->setMaterialTexture(0, _driver->getTexture("media/texture.bmp"));
                         }
                         else if (_map[x][y] == 2)
                         {
                                 _wall.push_back(_sceneManager->addCubeSceneNode(10.0f, 0, -1, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f))));
+                                _wall.back()->setMaterialFlag(video::E MF_LIGHTING, false);
                                 _ground.back()->setMaterialTexture(0, _driver->getTexture("media/destructible.bmp"));
-                                _wall.back()->setMaterialFlag(video::EMF_LIGHTING, false);
                         }
                 }
         }
         _player.push_back(_sceneManager->addMeshSceneNode(_sceneManager->getMesh("media/Bomberman/Bomberman/Bomberman.obj")));
-        _player.back()->setPosition(core::vector3df(10.0f, -70.0f, 130.0f));
-        _player.back()->setRotation(core::vector3df(0.0f, 180.0f, 0.0f));
-        _player.back()->setScale(core::vector3df(4.0f, 4.0f, 4.0f));
-        _player.back()->setMaterialFlag(video::EMF_LIGHTING, false);
-        _sceneManager->addCameraSceneNode(0, core::vector3df(80.0f, 40.0f, 0.0f), core::vector3df(80.0f, -80.0f, 60.0f), 0, true);
+        _player.at(0)->setPosition(core::vector3df(10.0f, -70.0f, 130.0f));
+        _player.at(0)->setRotation(core::vector3df(0.0f, 180.0f, 0.0f));
+        _player.at(0)->setScale(core::vector3df(3.0f, 3.0f, 3.0f));
+        _player.at(0)->setMaterialFlag(video::EMF_LIGHTING, false);
+        _sceneManager->addCameraSceneNode(0, core::vector3df(80.0f, 40.0f, 40.0f), core::vector3df(80.0f, -80.0f, 60.0f), 0, true);
         _speed = 1.0f * _PLAYER_SPEED;
         _lfps = -1;
+
 }
 
 Game::~Game()
@@ -117,39 +121,106 @@ Game &Game::operator=(const Game &obj)
 
 }
 
+
+
+//  getHitbox()    --->   getAbsolutePosition().getDistanceFrom(isceneNdode)   < size (11)
+
 void Game::move(core::vector3df *nodePosition, const f32 frameDeltaTime)
 {
-        if (_receiver.IsKeyDown(KEY_KEY_Z) && nodePosition->Z < 129.0f)
+        core::vector3df oldPos;
+
+        oldPos.X = nodePosition->X;
+        oldPos.Y = nodePosition->Y;
+        oldPos.Z = nodePosition->Z;
+        if (_receiver.IsKeyDown(KEY_KEY_Z) && nodePosition->Z < 130.0f)
         {
-                if (_map[(int)std::round((130 - std::round(nodePosition->Z + _speed * frameDeltaTime)) / 10 + 1 )][(int)std::round(nodePosition->X / 10)] == 0)
-                {
+                //if (_map[(int)std::round((130 - std::round(nodePosition->Z + _speed * frameDeltaTime)) / 10 + 1 )][(int)std::round(nodePosition->X / 10)] == 0)
+                //{
                         nodePosition->Z += _speed * frameDeltaTime;
                         _player.back()->setRotation(core::vector3df(0.0f, 0.0f, 0.0f));
-                }
+                //}
         }
-        else if (_receiver.IsKeyDown(KEY_KEY_S) && nodePosition->Z > 10.0f)
+        else if (_receiver.IsKeyDown(KEY_KEY_S) && nodePosition->Z > 12.0f)
         {
-                if (_map[(int)std::round((130 - std::round(nodePosition->Z - _speed * frameDeltaTime)) / 10 + 1 )][(int)std::round(nodePosition->X / 10)] == 0)
-                {
+                //if (_map[(int)std::round((130 - std::round(nodePosition->Z - _speed * frameDeltaTime)) / 10 + 1 )][(int)std::round(nodePosition->X / 10)] == 0)
+                //{
                         nodePosition->Z -= _speed * frameDeltaTime;
                         _player.back()->setRotation(core::vector3df(0.0f, 180.0f, 0.0f));
-                }
+                //}
 
         }
-        else if (_receiver.IsKeyDown(KEY_KEY_Q) && nodePosition->X > 10.0f)
+        else if (_receiver.IsKeyDown(KEY_KEY_Q) && nodePosition->X > 12.0f)
         {
-                if (_map[(int)std::round((130 - nodePosition->Z) / 10 + 1 )][(int)std::round(std::round(nodePosition->X - _speed * frameDeltaTime) / 10)] == 0)
-                {
+                //if (_map[(int)std::round((130 - nodePosition->Z) / 10 + 1 )][(int)std::round(std::round(nodePosition->X - _speed * frameDeltaTime) / 10)] == 0)
+                //{
                         nodePosition->X -= _speed * frameDeltaTime;
                         _player.back()->setRotation(core::vector3df(0.0f, -90.0f, 0.0f));
-                }
+                //}
         }
-        else if (_receiver.IsKeyDown(KEY_KEY_D) && nodePosition->X < 129.0f)
+        else if (_receiver.IsKeyDown(KEY_KEY_D) && nodePosition->X < 130.0f)
         {
-                if (_map[(int)std::round((130 - nodePosition->Z) / 10 + 1 )][(int)std::round(std::round(nodePosition->X + _speed * frameDeltaTime) / 10)] == 0)
-                {
+                //if (_map[(int)std::round((130 - nodePosition->Z) / 10 + 1 )][(int)std::round(std::round(nodePosition->X + _speed * frameDeltaTime) / 10)] == 0)
+                //{
                         nodePosition->X += _speed * frameDeltaTime;
                         _player.back()->setRotation(core::vector3df(0.0f, 90.0f, 0.0f));
+                //}
+        }
+        for (irr::scene::IMeshSceneNode* v : _wall)
+        {
+                if (v->getTransformedBoundingBox().intersectsWithBox(_player.back()->getTransformedBoundingBox()) == true)
+                {
+                        //nodePosition->X = oldPos.X - (_speed * frameDeltaTime);
+                        //nodePosition->Z = oldPos.Z - (_speed * frameDeltaTime);
+                        if (_receiver.IsKeyDown(KEY_KEY_Z))
+                        {
+                                nodePosition->Z = oldPos.Z - 0.1f;
+                        }
+                        else if (_receiver.IsKeyDown(KEY_KEY_S))
+                        {
+                                nodePosition->Z = oldPos.Z - 0.1f;
+                        }
+                        else if (_receiver.IsKeyDown(KEY_KEY_Q))
+                        {
+                                nodePosition->X = oldPos.X + 0.1f;
+                        }
+                        else if (_receiver.IsKeyDown(KEY_KEY_D))
+                        {
+                                nodePosition->X = oldPos.X - 0.1f;
+                        }
+                        return;
+                }
+        }
+        for (irr::scene::IMeshSceneNode* v : _bombe)
+        {
+                if (v->getTransformedBoundingBox().intersectsWithBox(_player.back()->getTransformedBoundingBox()) == true)
+                {
+                        //v->getPosition()
+                        int x, z;
+                        x = (nodePosition->X / 10);
+                        z = (nodePosition->Z / 10);
+                        x *= 10;
+                        z *= 10;
+                        //std::cout << x << " # " << v->getPosition().X << " ||| " << z << " # " << v->getPosition().Z << std::endl;
+                        if (x != v->getPosition().X && z != v->getPosition().Z)
+                        {
+                                if (_receiver.IsKeyDown(KEY_KEY_Z))
+                                {
+                                        nodePosition->Z = oldPos.Z - 0.1f;
+                                }
+                                else if (_receiver.IsKeyDown(KEY_KEY_S))
+                                {
+                                        nodePosition->Z = oldPos.Z - 0.1f;
+                                }
+                                else if (_receiver.IsKeyDown(KEY_KEY_Q))
+                                {
+                                        nodePosition->X = oldPos.X - 0.1f;
+                                }
+                                else if (_receiver.IsKeyDown(KEY_KEY_D))
+                                {
+                                        nodePosition->X = oldPos.X - 0.1f;
+                                }
+                                return;
+                        }
                 }
         }
 }
@@ -183,6 +254,19 @@ void Game::launch()
                 then = now;
 
                 core::vector3df nodePosition = _player.back()->getPosition();
+
+                //  getHitbox()    --->   getAbsolutePosition().getDistanceFrom(isceneNdode)   < size (11)
+
+                //for (irr::scene::IMeshSceneNode* v : _wall)
+                //{
+                //        int near = _player.back()->getAbsolutePosition().getDistanceFrom(v->getAbsolutePosition());
+                //        if (near < 20)
+                //        {
+                //                std::cout <<  near << std::endl;
+                //        }
+                //}
+                //core::vector3df abso = _player.back()->getAbsolutePosition();
+                //std::cout << "X: " << abso.X << " # Z: " << abso.Z << std::endl;
                 move(&nodePosition, frameDeltaTime);
 
                 core::vector3df bombPosition = _player.back()->getPosition();
@@ -193,9 +277,17 @@ void Game::launch()
                         z = (bombPosition.Z / 10);
                         x *= 10;
                         z *= 10;
-                        _bombe.push_back(_sceneManager->addMeshSceneNode(_sceneManager->getMesh("media/Bombs/MegaBomb/MegaBomb.obj")));
-                        _bombe.back()->setPosition(core::vector3df(x, (int)std::round(bombPosition.Y), z));
-                        _bombe.back()->setMaterialFlag(video::EMF_LIGHTING, false);
+                        for (irr::scene::IMeshSceneNode* v : _wall)
+                        {
+                                if (v->getTransformedBoundingBox().intersectsWithBox(_player.back()->getTransformedBoundingBox()) == false)
+                                {
+                                        _bombe.push_back(_sceneManager->addMeshSceneNode(_sceneManager->getMesh("media/Bombs/MegaBomb/MegaBomb.obj")));
+                                        _bombe.back()->setPosition(core::vector3df(x, (int)std::round(bombPosition.Y), z));
+                                        _bombe.back()->setScale(core::vector3df(0.7f, 0.7f, 0.7f));
+                                        _bombe.back()->setMaterialFlag(video::EMF_LIGHTING, false);
+                                        break;
+                                }
+                        }
                 }
                 _player.back()->setPosition(nodePosition);
 

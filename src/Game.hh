@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed May 31 09:47:34 2017 Philippe Lefevre
-// Last update Fri Jun  9 00:05:59 2017 Philippe Lefevre
+// Last update Sun Jun 11 02:11:11 2017 Philippe Lefevre
 //
 
 #ifndef GAME_HH_
@@ -14,6 +14,12 @@
 # include "EventReceiver.hpp"
 
 # define	_PLAYER_SPEED	80
+
+typedef struct	s_tile
+{
+        bool isDestructible;
+        irr::scene::IMeshSceneNode *block;
+}               t_tile;
 
 class Game {
 private:
@@ -25,6 +31,9 @@ private:
         std::vector<irr::scene::IMeshSceneNode*> _wall;
         std::vector<irr::scene::IMeshSceneNode*> _player;
         std::vector<irr::scene::IMeshSceneNode*> _bombe;
+
+        std::vector<t_tile*> _myMap;
+
         irr::f32 _speed;
         int _lfps;
         int _fps;
