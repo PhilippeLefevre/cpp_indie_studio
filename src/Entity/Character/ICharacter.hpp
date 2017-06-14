@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 11 02:04:03 2017 Philippe Lefevre
-// Last update Wed Jun 14 11:39:17 2017 Philippe Lefevre
+// Last update Wed Jun 14 12:32:41 2017 Philippe Lefevre
 //
 
 
@@ -27,7 +27,7 @@ namespace indie
                 virtual core::vector3df const& getRotation(void) const = 0;
                 virtual core::aabbox3df const getBoundingBox(void) const = 0;
                 virtual bool isColliding(core::aabbox3df const& box) const = 0;
-                virtual void Move(const f32, std::vector<indie::IEntity*> const&) = 0;
+                virtual bool Move(const f32, std::vector<indie::IEntity*> const&, std::vector<indie::IEntity*> const&) = 0;
         };
 }
 

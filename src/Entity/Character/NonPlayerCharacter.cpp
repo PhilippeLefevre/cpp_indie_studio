@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 11:39:47 2017 Philippe Lefevre
+// Last update Wed Jun 14 12:32:06 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -102,6 +102,6 @@ void indie::NonPlayerCharacter::Explose(void)
         setPosition(_pos);
 }
 
-void indie::NonPlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> const& block)
+bool indie::NonPlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> const& block, std::vector<indie::IEntity*> const& bomb)
 {
 }

@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Wed Jun 14 11:39:31 2017 Philippe Lefevre
+// Last update Wed Jun 14 12:32:27 2017 Philippe Lefevre
 //
 
 #ifndef PLAYERCHARACTER_HPP_
@@ -28,6 +28,7 @@ namespace indie
                 MyEventReceiver *_receiver;
                 bool _explosed;
                 f32 _speed;
+                unsigned int _bomb;
         public:
                 PlayerCharacter(scene::ISceneManager*, core::vector3df, video::IVideoDriver*, MyEventReceiver*);
                 ~PlayerCharacter(void);
@@ -42,7 +43,7 @@ namespace indie
                 bool isColliding(core::aabbox3df const& box) const;
                 bool isExplosed(void) const;
                 void Explose(void);
-                void Move(const f32, std::vector<indie::IEntity*> const&);
+                bool Move(const f32, std::vector<indie::IEntity*> const&, std::vector<indie::IEntity*> const&);
         };
 }
 

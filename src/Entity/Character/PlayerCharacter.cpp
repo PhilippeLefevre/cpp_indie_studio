@@ -5,13 +5,14 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 11:43:42 2017 Philippe Lefevre
+// Last update Wed Jun 14 16:06:06 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
 #include "PlayerCharacter.hpp"
 #include "IEntity.hpp"
 #include "IBlock.hpp"
+#include "Normal.hpp"
 
 indie::PlayerCharacter::PlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, MyEventReceiver *receiver) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _receiver(receiver)
 {
@@ -34,6 +35,7 @@ indie::PlayerCharacter::PlayerCharacter(scene::ISceneManager *scnMngr, core::vec
         }
         _explosed = false;
         _speed = 1.0f * _PLAYER_SPEED;
+        _bomb = 1;
 }
 
 indie::PlayerCharacter::~PlayerCharacter()
@@ -106,7 +108,7 @@ void indie::PlayerCharacter::Explose(void)
         setPosition(_pos);
 }
 
-void indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> const& block)
+bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> const& block, std::vector<indie::IEntity*> const& bomb)
 {
         core::vector3df oldPos;
 
@@ -119,9 +121,7 @@ void indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
         }
         else if (_receiver->IsKeyDown(KEY_KEY_S))
         {
-                std::cout << _pos.Z << " # " << (_speed * fps) << std::endl;
                 _pos.Z -= _speed * fps;
-
         }
         else if (_receiver->IsKeyDown(KEY_KEY_Q))
         {
@@ -131,7 +131,6 @@ void indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
         {
                 _pos.X += _speed * fps;
         }
-        std::cout << _pos.X << " # " << _pos.Z << std::endl;
         setPosition(_pos);
         for (indie::IEntity *w : block)
         {
@@ -141,4 +140,18 @@ void indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
                         break;
                 }
         }
+        if (_receiver->IsKeyDown(KEY_SPACE))
+        {
+                if (_bomb > 0)
+                {
+                        std::cout << "true" << std::endl;
+                        return (true);
+                }
+                int x, z;
+                x = (_pos.X / 10);
+                z = (_pos.Z / 10);
+                //bomb.push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver));
+        }
+        std::cout << "false" << std::endl;
+        return (false);
 }
