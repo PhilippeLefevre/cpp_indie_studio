@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 18:35:47 2017 Philippe Lefevre
+// Last update Wed Jun 14 19:42:00 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -94,6 +94,31 @@ bool indie::Normal::isExplosed(void) const
 
 void indie::Normal::Explose(std::vector<indie::IEntity*> const& block)
 {
+        //int x, z;
+        //x = (_pos.X / 10);
+        //z = (_pos.Z / 10);
+        //x *= 10;
+        //z *= 10;
+        //x /= 10;
+        //z /= 10;
+
+        //std::cout << x << " # " << z << std::endl;
+        //if (((indie::IBlock*)block.at((x + 1)+ (z * 14)))->isExplosible())
+        //{
+        //        (((indie::DestructibleBlock*)block.at((x + 1)+ (z * 15)))->Explose());
+        //}
+        //f32 near = 99999999;
+        //scene::IMeshSceneNode *mesh;
+        //for (indie::IEntity *w : block)
+        //{
+        //        f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
+        //        if (dist < near)
+        //        {
+        //                near = dist;
+        //                mesh = w;
+        //        }
+        //}
+        //core::vector3df pos = mesh->getPosition();
         for (indie::IEntity *w : block)
         {
                 f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
