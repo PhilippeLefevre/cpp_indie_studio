@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Wed Jun 14 18:34:55 2017 Philippe Lefevre
+// Last update Fri Jun 16 00:21:25 2017 Philippe Lefevre
 //
 
 #ifndef PLAYERCHARACTER_HPP_
@@ -26,11 +26,12 @@ namespace indie
                 video::IVideoDriver* _driver;
                 core::vector3df _pos;
                 MyEventReceiver *_receiver;
+                ITimer *_timer;
                 bool _explosed;
                 f32 _speed;
                 unsigned int _bomb;
         public:
-                PlayerCharacter(scene::ISceneManager*, core::vector3df, video::IVideoDriver*, MyEventReceiver*);
+                PlayerCharacter(scene::ISceneManager*, core::vector3df, video::IVideoDriver*, MyEventReceiver*, ITimer*);
                 ~PlayerCharacter(void);
                 PlayerCharacter(const PlayerCharacter &obj);
                 PlayerCharacter &operator=(const PlayerCharacter &obj);

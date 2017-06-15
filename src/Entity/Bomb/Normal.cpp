@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Thu Jun 15 16:17:56 2017 Philippe Lefevre
+// Last update Fri Jun 16 00:40:02 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -13,14 +13,14 @@
 #include "DestructibleBlock.hpp"
 #include "Normal.hpp"
 
-indie::Normal::Normal(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, indie::PlayerCharacter *owner) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _owner(owner)
+indie::Normal::Normal(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, indie::ICharacter *owner, u32 time) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _owner(owner), _time(time)
 {
-        std::string txt = "../../media/Bombs/MegaBomb/MegaBomb.obj";
+        std::string txt = "../media/Bombs/MegaBomb/MegaBomb.obj";
         _mesh = _scnMngr->addMeshSceneNode(_scnMngr->getMesh(txt.data()));
         if (_mesh)
         {
                 _mesh->setScale(core::vector3df(0.7f, 0.7f, 0.7f));
-                _mesh->setPosition(_pos);
+                _mesh->setPosition(pos);
                 _mesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
         }
         else
@@ -59,6 +59,7 @@ void indie::Normal::setPosition(core::vector3df const& pos)
 {
         _mesh->setPosition(pos);
         _mesh->updateAbsolutePosition();
+        _pos = getPosition();
 }
 
 core::vector3df const& indie::Normal::getPosition(void) const
@@ -69,7 +70,6 @@ core::vector3df const& indie::Normal::getPosition(void) const
 void indie::Normal::setRotation(core::vector3df const& pos)
 {
         _mesh->setRotation(pos);
-        _pos = pos;
 }
 
 core::vector3df const& indie::Normal::getRotation(void) const
@@ -91,55 +91,53 @@ bool indie::Normal::isExplosed(void) const
 {
         return (_explosed);
 }
-#include <thread>         // std::this_thread::sleep_for
-#include <chrono>         // std::chrono::seconds
-void indie::Normal::Explose(std::vector<indie::IEntity*> const& block)
+
+void indie::Normal::Explose(std::vector<indie::IEntity*> const& block, const u32 time)
 {
-        int x, z;
-        x = (_pos.X / 10);
-        z = (_pos.Z / 10);
-        x *= 10;
-        z *= 10;
-        x /= 10;
-        z /= 10;
-
-        //if (((indie::IBlock*)block.at((x + 1)+ (z * 14)))->isExplosible())
-        //{
-        //        (((indie::DestructibleBlock*)block.at((x + 1)+ (z * 15)))->Explose());
-        //}
-        if (((indie::IBlock*)block.at((x * 14 + z) + 15))->isExplosible())
+        if (time > (_time + TIME_TO_EXPLOSE))
         {
-                (((indie::DestructibleBlock*)block.at((x * 14 + z) + 15))->Explose());
-        }
-        if (((indie::IBlock*)block.at((x * 14 + z) - 14))->isExplosible())
-        {
-                (((indie::DestructibleBlock*)block.at((x * 14 + z) - 14))->Explose());
-        }
-        if (((indie::IBlock*)block.at((x * 14 + z) + 1))->isExplosible())
-        {
-                (((indie::DestructibleBlock*)block.at((x * 14 + z) + 1))->Explose());
-        }
-        if (((indie::IBlock*)block.at((x * 14 + z) - 1))->isExplosible())
-        {
-                (((indie::DestructibleBlock*)block.at((x * 14 + z) - 1))->Explose());
-        }
+                _pos = getPosition();
+                int x, z;
+                x = _pos.X / 10 ;
+                z = _pos.Z / 10 ;
+                //x = (_pos.X / 10);
+                //z = (_pos.Z / 10);
+                //x *= 10;
+                //z *= 10;
+                //x /= 10;
+                //z /= 10;
+                if (((indie::IBlock*)block.at((x * 14 + z + x) + 15))->isExplosible())
+                {
+                        (((indie::DestructibleBlock*)block.at((x * 14 + z + x) + 15))->Explose());
+                }
+                if (((indie::IBlock*)block.at((x * 14 + z + x) - 15))->isExplosible())
+                {
+                        (((indie::DestructibleBlock*)block.at((x * 14 + z + x) - 15))->Explose());
+                }
+                if (((indie::IBlock*)block.at((x * 14 + z + x) + 1))->isExplosible())
+                {
+                        (((indie::DestructibleBlock*)block.at((x * 14 + z + x) + 1))->Explose());
+                }
+                if (((indie::IBlock*)block.at((x * 14 + z + x) - 1))->isExplosible())
+                {
+                        (((indie::DestructibleBlock*)block.at((x * 14 + z + x) - 1))->Explose());
+                }
 
+                //for (indie::IEntity *w : block)
+                //{
+                //        f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
+                //        if (dist < 11)
+                //        {
+                //                if (((indie::IBlock*)w)->isExplosible())
+                //                {
+                //                        ((indie::DestructibleBlock*)w)->Explose();
+                //                }
+                //        }
+                //}
 
-        //for (indie::IEntity *w : block)
-        //{
-        //        f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
-        //        if (dist < 11)
-        //        {
-        //                if (((indie::IBlock*)w)->isExplosible())
-        //                {
-        //                        ((indie::DestructibleBlock*)w)->Explose();
-        //                }
-        //        }
-        //}
-
-        _owner->giveBomb(1);
-        _explosed = true;
-        _pos.Y -= 20;
-        setPosition(_pos);
-        //~Normal();
+                _explosed = true;
+                _pos.Y -= 20;
+                _owner->giveBomb(1);
+                setPosition(_pos);
+        }
 }

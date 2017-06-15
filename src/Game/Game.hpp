@@ -5,26 +5,28 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 11 01:42:46 2017 Philippe Lefevre
-// Last update Thu Jun 15 17:40:17 2017 Philippe Lefevre
+// Last update Thu Jun 15 23:48:58 2017 Philippe Lefevre
 //
 
 #ifndef GAME_HPP_
 # define GAME_HPP_
 
+#include <vector>
+#include <ITimer.h>
 #include "IndestructibleBlock.hpp"
 #include "DestructibleBlock.hpp"
 #include "PlayerCharacter.hpp"
 #include "NonPlayerCharacter.hpp"
 #include "Normal.hpp"
 #include "EventReceiver.hpp"
-#include <vector>
 
 class Game {
 private:
-        IrrlichtDevice* _device;
+        IrrlichtDevice *_device;
         MyEventReceiver *_receiver;
         scene::ISceneManager *_sceneManager;
-        video::IVideoDriver* _driver;
+        video::IVideoDriver *_driver;
+        ITimer *_timer;
 
         std::vector<indie::IEntity*> _ground;
         std::vector<indie::IEntity*> _block;

@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 11 02:04:03 2017 Philippe Lefevre
-// Last update Wed Jun 14 18:20:55 2017 Philippe Lefevre
+// Last update Fri Jun 16 00:28:44 2017 Philippe Lefevre
 //
 
 
@@ -13,7 +13,7 @@
 # define IBOMB_HPP_
 
 # include "IEntity.hpp"
-
+# define TIME_TO_EXPLOSE        3000
 namespace indie
 {
         class IBomb : public IEntity
@@ -27,7 +27,7 @@ namespace indie
                 virtual core::aabbox3df const getBoundingBox(void) const = 0;
                 virtual bool isColliding(core::aabbox3df const& box) const = 0;
                 virtual bool isExplosed(void) const = 0;
-                virtual void Explose(std::vector<indie::IEntity*> const&) = 0;
+                virtual void Explose(std::vector<indie::IEntity*> const&, const u32) = 0;
         };
 }
 

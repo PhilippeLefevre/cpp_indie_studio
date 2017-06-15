@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Thu Jun 15 17:16:54 2017 Philippe Lefevre
+// Last update Fri Jun 16 00:23:25 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -14,7 +14,7 @@
 #include "IBlock.hpp"
 #include "Normal.hpp"
 
-indie::PlayerCharacter::PlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, MyEventReceiver *receiver) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _receiver(receiver)
+indie::PlayerCharacter::PlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, MyEventReceiver *receiver, ITimer *timer) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _receiver(receiver), _timer(timer)
 {
         std::string txt = "texture_green.bmp";
         _mesh = _scnMngr->addCubeSceneNode(10.0f, 0, -1, _pos);
@@ -153,7 +153,7 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
                         int x, z;
                         x = (_pos.X / 10);
                         z = (_pos.Z / 10);
-                        bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver, this));
+                        bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver, this, _timer->getTime()));
                         _bomb--;
                         return (true);
                 }
