@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 19:42:00 2017 Philippe Lefevre
+// Last update Thu Jun 15 16:17:56 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -91,45 +91,52 @@ bool indie::Normal::isExplosed(void) const
 {
         return (_explosed);
 }
-
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
 void indie::Normal::Explose(std::vector<indie::IEntity*> const& block)
 {
-        //int x, z;
-        //x = (_pos.X / 10);
-        //z = (_pos.Z / 10);
-        //x *= 10;
-        //z *= 10;
-        //x /= 10;
-        //z /= 10;
+        int x, z;
+        x = (_pos.X / 10);
+        z = (_pos.Z / 10);
+        x *= 10;
+        z *= 10;
+        x /= 10;
+        z /= 10;
 
-        //std::cout << x << " # " << z << std::endl;
         //if (((indie::IBlock*)block.at((x + 1)+ (z * 14)))->isExplosible())
         //{
         //        (((indie::DestructibleBlock*)block.at((x + 1)+ (z * 15)))->Explose());
         //}
-        //f32 near = 99999999;
-        //scene::IMeshSceneNode *mesh;
+        if (((indie::IBlock*)block.at((x * 14 + z) + 15))->isExplosible())
+        {
+                (((indie::DestructibleBlock*)block.at((x * 14 + z) + 15))->Explose());
+        }
+        if (((indie::IBlock*)block.at((x * 14 + z) - 14))->isExplosible())
+        {
+                (((indie::DestructibleBlock*)block.at((x * 14 + z) - 14))->Explose());
+        }
+        if (((indie::IBlock*)block.at((x * 14 + z) + 1))->isExplosible())
+        {
+                (((indie::DestructibleBlock*)block.at((x * 14 + z) + 1))->Explose());
+        }
+        if (((indie::IBlock*)block.at((x * 14 + z) - 1))->isExplosible())
+        {
+                (((indie::DestructibleBlock*)block.at((x * 14 + z) - 1))->Explose());
+        }
+
+
         //for (indie::IEntity *w : block)
         //{
         //        f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
-        //        if (dist < near)
+        //        if (dist < 11)
         //        {
-        //                near = dist;
-        //                mesh = w;
+        //                if (((indie::IBlock*)w)->isExplosible())
+        //                {
+        //                        ((indie::DestructibleBlock*)w)->Explose();
+        //                }
         //        }
         //}
-        //core::vector3df pos = mesh->getPosition();
-        for (indie::IEntity *w : block)
-        {
-                f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
-                if (dist < 11)
-                {
-                        if (((indie::IBlock*)w)->isExplosible())
-                        {
-                                ((indie::DestructibleBlock*)w)->Explose();
-                        }
-                }
-        }
+
         _owner->giveBomb(1);
         _explosed = true;
         _pos.Y -= 20;

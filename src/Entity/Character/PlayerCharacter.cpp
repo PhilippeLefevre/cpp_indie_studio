@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 19:29:23 2017 Philippe Lefevre
+// Last update Thu Jun 15 17:16:54 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -115,25 +115,31 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
         oldPos.X = _pos.X;
         oldPos.Y = _pos.Y;
         oldPos.Z = _pos.Z;
-        if (_receiver->IsKeyDown(KEY_KEY_Z) && _pos.Z < 130.0f)
+        if (_receiver->IsKeyDown(KEY_KEY_Z))
         {
                 _pos.Z += _speed * fps;
         }
-        else if (_receiver->IsKeyDown(KEY_KEY_S) && _pos.Z > 10.0f)
+        else if (_receiver->IsKeyDown(KEY_KEY_S))
         {
                 _pos.Z -= _speed * fps;
         }
-        else if (_receiver->IsKeyDown(KEY_KEY_Q) && _pos.X > 10.0f)
+        else if (_receiver->IsKeyDown(KEY_KEY_Q))
         {
                 _pos.X -= _speed * fps;
         }
-        else if (_receiver->IsKeyDown(KEY_KEY_D) && _pos.X < 130.0f)
+        else if (_receiver->IsKeyDown(KEY_KEY_D))
         {
                 _pos.X += _speed * fps;
         }
         setPosition(_pos);
         for (indie::IEntity *w : block)
         {
+                //f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
+                //if (dist < 9)
+                //{
+                //        setPosition(oldPos);
+                //        break;
+                //}
                 if (isColliding(w->getBoundingBox()))
                 {
                         setPosition(oldPos);
