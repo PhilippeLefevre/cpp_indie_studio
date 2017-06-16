@@ -13,7 +13,7 @@
 
 indie::DestructibleBlock::DestructibleBlock(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, bool explosed) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _explosed(explosed)
 {
-        std::string txt = "texture_red.bmp";
+        std::string txt = "media/texture_red.bmp";
         _mesh = _scnMngr->addCubeSceneNode(10.0f, 0, -1, _pos);
         if (_mesh)
         {

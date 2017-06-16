@@ -16,7 +16,7 @@
 
 indie::PlayerCharacter::PlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, MyEventReceiver *receiver, ITimer *timer) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _receiver(receiver), _timer(timer)
 {
-        std::string txt = "texture_green.bmp";
+        std::string txt = "media/texture_green.bmp";
         _mesh = _scnMngr->addCubeSceneNode(10.0f, 0, -1, _pos);
         if (_mesh)
         {
