@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Wed Jun 14 18:33:23 2017 Philippe Lefevre
+// Last update Fri Jun 16 00:28:48 2017 John Doe
 //
 
 #ifndef NONPLAYERCHARACTER_HPP_
@@ -22,9 +22,13 @@ namespace indie
                 scene::ISceneManager *_scnMngr;
                 video::IVideoDriver* _driver;
                 core::vector3df _pos;
+                float _MaxXZ;
+                float _MinXZ;
                 bool _explosed;
                 f32 _speed;
                 unsigned int _bomb;
+                int _direction;
+                bool _rotate;
         public:
                 NonPlayerCharacter(scene::ISceneManager*, core::vector3df, video::IVideoDriver*);
                 ~NonPlayerCharacter(void);
