@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Fri Jun 16 02:07:29 2017 John Doe
+// Last update Fri Jun 16 02:18:40 2017 John Doe
 //
 
 #include <IVideoDriver.h>
@@ -14,7 +14,7 @@
 #include "IBlock.hpp"
 #include "Normal.hpp"
 
-indie::NonPlayerCharacter::NonPlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver) : _scnMngr(scnMngr), _pos(pos), _driver(driver)
+indie::NonPlayerCharacter::NonPlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, ITimer *timer) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _timer(timer)
 {
         std::string txt = "media/texture_yellow.bmp";
         _mesh = _scnMngr->addCubeSceneNode(10.0f, 0, -1, _pos);
@@ -76,8 +76,9 @@ void indie::NonPlayerCharacter::setMaterialFlag(video::E_MATERIAL_FLAG flag, boo
 
 void indie::NonPlayerCharacter::setPosition(core::vector3df const& pos)
 {
-        _mesh->setPosition(pos);
-        _mesh->updateAbsolutePosition();
+				_mesh->setPosition(pos);
+				_mesh->updateAbsolutePosition();
+				_pos = getPosition();
 }
 
 core::vector3df const& indie::NonPlayerCharacter::getPosition(void) const
@@ -88,7 +89,7 @@ core::vector3df const& indie::NonPlayerCharacter::getPosition(void) const
 void indie::NonPlayerCharacter::setRotation(core::vector3df const& pos)
 {
         _mesh->setRotation(pos);
-        _pos = pos;
+        _pos = getRotation();
 }
 
 core::vector3df const& indie::NonPlayerCharacter::getRotation(void) const
@@ -168,6 +169,15 @@ bool indie::NonPlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*>
           if (isColliding(w->getBoundingBox()))
             {
               setPosition(oldPos);
+              if (_bomb > 0)
+              {
+                      int x, z;
+                      x = (_pos.X / 10);
+                      z = (_pos.Z / 10);
+                      bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver, this, _timer->getTime()));
+                      _bomb--;
+                      return (true);
+              }
               break;
             }
         }
