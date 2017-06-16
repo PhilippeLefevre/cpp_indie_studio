@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Thu Jun 15 17:25:23 2017 Philippe Lefevre
-// Last update Fri Jun 16 00:40:50 2017 Philippe Lefevre
+// Last update Fri Jun 16 02:05:03 2017 Philippe Lefevre
 //
 
 #include "Game.hpp"
@@ -91,7 +91,6 @@ void Game::Play()
                 const u32 now = _device->getTimer()->getTime();
                 const f32 fps = (f32)(now - then) / 1000.0f;
                 then = now;
-                std::cout << _bomb.size() << std::endl;
                 for (indie::IEntity *w : _character)
                 {
                         bool status = ((indie::ICharacter*)w)->Move(fps, _block, &_bomb);
@@ -111,7 +110,6 @@ void Game::Play()
                 //                break;
                 //        }
                 //}
-                std::cout << _bomb.size() << std::endl;
                 _driver->beginScene(true, true, video::SColor(255, 113, 113, 133));
                 _sceneManager->drawAll();
                 _device->getGUIEnvironment()->drawAll();

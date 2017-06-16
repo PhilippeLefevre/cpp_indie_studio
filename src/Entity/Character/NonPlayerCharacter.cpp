@@ -13,7 +13,7 @@
 
 indie::NonPlayerCharacter::NonPlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver) : _scnMngr(scnMngr), _pos(pos), _driver(driver)
 {
-        std::string txt = "texture_yellow.bmp";
+        std::string txt = "media/texture_yellow.bmp";
         _mesh = _scnMngr->addCubeSceneNode(10.0f, 0, -1, _pos);
         if (_mesh)
         {

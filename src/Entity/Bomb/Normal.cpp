@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Fri Jun 16 00:40:02 2017 Philippe Lefevre
+// Last update Fri Jun 16 02:06:11 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -15,7 +15,7 @@
 
 indie::Normal::Normal(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, indie::ICharacter *owner, u32 time) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _owner(owner), _time(time)
 {
-        std::string txt = "../media/Bombs/MegaBomb/MegaBomb.obj";
+        std::string txt = "media/Bombs/MegaBomb/MegaBomb.obj";
         _mesh = _scnMngr->addMeshSceneNode(_scnMngr->getMesh(txt.data()));
         if (_mesh)
         {
