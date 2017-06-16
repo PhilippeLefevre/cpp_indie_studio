@@ -7,7 +7,14 @@ Target := IndieStudio
 # List of source files, separated by spaces
 Sources := ./src/Main.cpp \
 	./src/MainMenu.cpp \
-	./src/Options.cpp
+	./src/Options.cpp \
+	./src/Score.cpp \
+	./src/Game/Game.cpp \
+	./src/Entity/Block/IndestructibleBlock.cpp \
+	./src/Entity/Block/DestructibleBlock.cpp \
+	./src/Entity/Bomb/Normal.cpp \
+	./src/Entity/Character/NonPlayerCharacter.cpp \
+	./src/Entity/Character/PlayerCharacter.cpp
 # Path to Irrlicht directory, should contain include/ and lib/
 IrrlichtHome := include/..
 # Path for the executable. Note that Irrlicht.dll should usually also be there for win32 systems
@@ -15,7 +22,7 @@ BinPath = ./
 
 # general compiler settings (might need to be set when compiling the lib, too)
 # preprocessor flags, e.g. defines and include paths
-USERCPPFLAGS =
+USERCPPFLAGS = -g3
 # compiler flags such as optimization flags
 USERCXXFLAGS = -O3 -ffast-math -std=c++11
 #USERCXXFLAGS = -g -Wall
@@ -26,7 +33,7 @@ USERLDFLAGS =
 #no changes necessary below this line
 ####
 
-CPPFLAGS = -I$(IrrlichtHome)/include -I/usr/X11R6/include $(USERCPPFLAGS) -Iinc
+CPPFLAGS = -I$(IrrlichtHome)/include -I/usr/X11R6/include $(USERCPPFLAGS) -Iinc -I./src/Game/ -I./src/Entity/Block/ -I./src/Entity/ -I./src/Entity/Bomb/ -I./src/Entity/Powerup/ -I./src/Entity/Character/ -I./src/
 CXXFLAGS = $(USERCXXFLAGS)
 LDFLAGS = $(USERLDFLAGS)
 

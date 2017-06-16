@@ -1,5 +1,7 @@
 //
-// Game.hpp for IndieStudio in /home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Game/
+
+// Game.hpp for IndieStudio in
+// /home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Game/
 //
 // Made by Philippe Lefevre
 // Login   <philippe1.lefevre@epitech.eu>
@@ -9,7 +11,7 @@
 //
 
 #ifndef GAME_HPP_
-# define GAME_HPP_
+#define GAME_HPP_
 
 #include <vector>
 #include <ITimer.h>
@@ -20,24 +22,29 @@
 #include "Normal.hpp"
 #include "EventReceiver.hpp"
 
-class Game {
+class Game
+{
 private:
-        IrrlichtDevice *_device;
-        MyEventReceiver *_receiver;
-        scene::ISceneManager *_sceneManager;
-        video::IVideoDriver *_driver;
-        ITimer *_timer;
 
-        std::vector<indie::IEntity*> _ground;
-        std::vector<indie::IEntity*> _block;
-        std::vector<indie::IEntity*> _character;
-        std::vector<indie::IEntity*> _bomb;
+  IrrlichtDevice   *_device;
+  MyEventReceiver   *_receiver;
+  scene::ISceneManager   *_sceneManager;
+  video::IVideoDriver   *_driver;
+  ITimer   *_timer;
+
+  std::vector<indie::IEntity*>   _ground;
+  std::vector<indie::IEntity*>   _block;
+  std::vector<indie::IEntity*>   _character;
+  std::vector<indie::IEntity*>   _bomb;
+
 public:
-        Game (const int map[15][15]);
-        virtual ~Game ();
-        Game(const Game &obj);
-        Game &operator=(const Game &obj);
-        void Play();
+
+  Game();
+  virtual ~Game();
+  Game(const Game& obj);
+  Game	   & operator=(const Game& obj);
+  void	   Play();
+  void		init(const int map[15][15]);
 };
 
 #endif /* !GAME_HPP_ */

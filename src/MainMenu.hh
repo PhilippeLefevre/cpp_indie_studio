@@ -5,13 +5,15 @@
 ** Login	leliev_t
 **
 ** Started on	Tue May 09 18:37:17 2017 Tanguy Lelievre
-** Last update	Thu May 11 17:55:15 2017 Tanguy Lelievre
+** Last update	Fri Jun 16 16:17:45 2017 Tanguy Lelievre
 */
 
 #ifndef MAINMENU_HH_
 # define MAINMENU_HH_
 
 # include <driverChoice.h>
+# include <dirent.h>
+# include <sys/types.h>
 # include "irrlicht.h"
 # include "Options.hh"
 # include <ctime>
@@ -19,19 +21,106 @@
 class	MainMenu : public irr::IEventReceiver
 {
 public:
+  enum id
+  {
+    // Main Menu
+    GUI_MAIN_MENU_ELEMENT = 0,
+    SCENE_MAIN_MENU_NODE,
+    GUI_QUIT_BUTTON,
+    GUI_NEW_GAME_BUTTON,
+    GUI_LOAD_GAME_BUTTON,
+    GUI_SCORE_BUTTON,
+    GUI_OPTION_BUTTON,
+
+    // Options Menu
+    GUI_OPTION_MENU_ELEMENT,
+    SCENE_OPTION_MENU_NODE,
+    GUI_FULLSCREEN_CHECKBOX,
+    GUI_AA_CHECKBOX,
+    GUI_VSYNC_CHECKBOX,
+    GUI_RES_COMBOBOX,
+    GUI_SOUND_LEVEL_SCROLLBAR,
+    GUI_SOUND_MUTE_CHECKBOX,
+    GUI_MUSIC_LEVEL_SCROLLBAR,
+    GUI_MUSIC_MUTE_CHECKBOX,
+    GUI_EFFECTS_LEVEL_SCROLLBAR,
+    GUI_EFFECTS_MUTE_CHECKBOX,
+    GUI_BACK_OPTIONS_BUTTON,
+    GUI_APPLY_BUTTON,
+
+    // New Game Menu
+    GUI_NEW_GAME_MENU_ELEMENT,
+    SCENE_NEW_GAME_MENU_NODE,
+    GUI_START_NEW_GAME_BUTTON,
+    GUI_BACK_NEW_GAME_BUTTON,
+    GUI_NBPLAYER_COMBOBOX,
+    GUI_NBIA_COMBOBOX,
+    GUI_MAP_LISTBOX,
+
+    // Load Game Menu
+    GUI_LOAD_GAME_MENU_ELEMENT,
+    SCENE_LOAD_GAME_MENU_NODE,
+
+    // Scores Menu
+    GUI_SCORE_MENU_ELEMENT,
+    SCENE_SCORE_MENU_NODE,
+    GUI_SCORE_POINTS_LISTBOX,
+    GUI_SCORE_PSEUDO_LISTBOX,
+    GUI_BACK_SCORE_BUTTON,
+  };
+
+public:
   MainMenu();
   ~MainMenu();
 
-  bool	run();
+  irr::s32	run();
 
+  void	createWindow();
   bool	OnEvent(const irr::SEvent &event);
-  void	GOptions();
   void	LoadGame();
-  void	NewGame();
   void	Menu();
-  void	Display();
+  void	OptionMenu();
+  irr::s32	**getMap() const;
+
 private:
+  void	prepareGUI();
+  void	prepareScene();
+  void	optsChange();
   Options	_opts;
+
+  irr::s32	_quit;
+  irr::gui::IGUIElement* _rootGUI;
+  irr::scene::ISceneNode* _rootScene;
+
+  // Main Menu
+  void	MainMenuGUI();
+  void	MainMenuScene();
+  irr::gui::IGUIElement* _MainMenuGUI;
+  irr::scene::IAnimatedMeshSceneNode *_MainMenuScene;
+
+  // New Game Menu
+  void	NewGameGUI();
+  void	NewGameScene();
+  irr::gui::IGUIElement* _NewGameGUI;
+  irr::scene::IAnimatedMeshSceneNode *_NewGameScene;
+
+  // Load Game Menu
+  void	LoadGameGUI();
+  void	LoadGameScene();
+  irr::gui::IGUIElement* _LoadGameGUI;
+  irr::scene::IAnimatedMeshSceneNode *_LoadGameScene;
+
+  // Score Menu
+  void	ScoreGUI();
+  void	ScoreScene();
+  irr::gui::IGUIElement* _ScoreGUI;
+  irr::scene::IAnimatedMeshSceneNode *_ScoreScene;
+
+  // Options Menu
+  void	GOptionsGUI();
+  void	GOptionsScene();
+  irr::gui::IGUIElement* _GOptionGUI;
+  irr::scene::IAnimatedMeshSceneNode *_GOptionScene;
 
   irr::SIrrlichtCreationParameters _params;
   irr::IrrlichtDevice *_Mdevice;
@@ -43,31 +132,16 @@ private:
 
   irr::video::IVideoDriver* _driver;
   irr::gui::IGUIEnvironment* _guienv;
-  irr::gui::IGUIElement* _elem;
   irr::scene::ISceneManager* _smgr;
   irr::scene::IAnimatedMesh* _mesh;
   irr::scene::IAnimatedMeshSceneNode* _modelNode;
   irr::scene::ISceneNodeAnimator* _ani;
 
-  irr::video::ITexture* _irrlichtBack;
-  irr::gui::IGUIButton* _NewGame;
-  irr::gui::IGUIButton* _Load;
-  irr::gui::IGUIButton* _Score;
-  irr::gui::IGUIButton* _Options;
-  irr::gui::IGUIButton* _Exit;
-  irr::gui::IGUIImage* _logo_img;
-  irr::gui::IGUIButton* _Tatata;
-  irr::gui::IGUIButton* _display;
-  irr::gui::IGUIButton* _sound;
-  irr::gui::IGUIButton* _shortc;
-  irr::gui::IGUIButton* _back;
-
-  irr::gui::IGUIComboBox* _Resolution;
-  irr::gui::IGUICheckBox* _Fullscreen;
-  irr::gui::IGUICheckBox* _Sound;
-  irr::gui::IGUICheckBox* _Effects;
-  irr::gui::IGUICheckBox* _Vsync;
-  irr::gui::IGUICheckBox* _aa;
+  irr::gui::IGUIButton* _button;
+  irr::gui::IGUIComboBox* _combobox;
+  irr::gui::IGUIScrollBar* _scrollbar;
+  irr::video::IImage*	_image;
+  irr::gui::IGUIListBox* _listbox;
 };
 
 #endif /* !MAINMENU_HH_ */

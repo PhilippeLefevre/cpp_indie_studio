@@ -5,179 +5,235 @@
 ** Login	leliev_t
 **
 ** Started on	Wed May 10 14:42:18 2017 Tanguy Lelievre
-** Last update	Thu May 11 18:30:21 2017 Tanguy Lelievre
+** Last update	Sat Jun 03 12:11:48 2017 Tanguy Lelievre
 */
 
 #include "Options.hh"
 
-Options::Options() : _fullscreen(false), _width(1600), _height(900),
-  _sound(true), _music(true), _effects(true), _vsync(true), _aa(0)
+Options::Options() : _fullscreen(false), _width(1920), _height(1080),
+  _vsync(true), _aa(true), _soundMute(false), _soundLevel(50),
+  _musicMute(false), _musicLevel(50), _effectsMute(false), _effectsLevel(50)
 {
-  std::ifstream   ifs("display.conf");
-  std::string   line;
-  std::string   fp;
-  std::string   sp;
-  int   pos;
-  unsigned int   i;
-  std::vector<std::string>   opts;
-  std::regex   is_num;
-
-  is_num = "[0-9]+";
-  opts.push_back("FULLSCREEN");
-  opts.push_back("WIDTH");
-  opts.push_back("HEIGHT");
-  opts.push_back("SOUND");
-  opts.push_back("MUSIC");
-  opts.push_back("EFFECTS");
-  opts.push_back("VSYNC");
-  opts.push_back("AA");
-  if (ifs.is_open())
-  {
-    while (std::getline(ifs, line))
-    {
-      i	  = 0;
-      pos = line.find('=', 0);
-      fp  = line.substr(0, pos);
-      sp  = line.substr(pos + 1);
-      while (i < opts.size())
-      {
-	if (fp.compare(opts[i]) == 0)
-	  switch (i) {
-	  case 0:
-	    if (sp.compare("true") == 0)
-	      _fullscreen = true;
-	    else if (sp.compare("false") == 0)
-	      _fullscreen = false;
-	    break;
-
-	  case 1:
-	    if (std::regex_match(sp, is_num) == true)
-	    {
-	      _width = std::stoi(sp);
-	    }
-	    break;
-
-	  case 2:
-	    if (std::regex_match(sp, is_num) == true)
-	    {
-	      _height = std::stoi(sp);
-	    }
-	    break;
-
-	  case 3:
-	    if (sp.compare("true") == 0)
-	      _sound = true;
-	    else if (sp.compare("false") == 0)
-	      _sound = false;
-	    break;
-
-	  case 4:
-	    if (sp.compare("true") == 0)
-	      _music = true;
-	    else if (sp.compare("false") == 0)
-	      _music = false;
-	    break;
-
-	  case 5:
-	    if (sp.compare("true") == 0)
-	      _effects = true;
-	    else if (sp.compare("false") == 0)
-	      _effects = false;
-	    break;
-
-	  case 6:
-	    if (sp.compare("true") == 0)
-	      _vsync = true;
-	    else if (sp.compare("false") == 0)
-	      _vsync = false;
-	    break;
-
-	  case 7:
-	    if (sp.compare("true") == 0)
-	      _aa = true;
-	    else if (sp.compare("false") == 0)
-	      _aa = false;
-	    break;
-	  }
-	i++;
-      }
-    }
-  }
+  _NullDevice = irr::createDevice(irr::video::EDT_NULL);
+  loadConf();
 }
 
-void	Options::setFullscreen(bool fullscreen)
+void     Options::loadConf()
+{
+  if (!_NullDevice)
+    return;
+  _xmlReader = _NullDevice->getFileSystem()->createXMLReader("./conf.xml");
+  if (!_xmlReader)
+    return;
+  irr::core::stringw   disp;
+  irr::core::stringw   aud;
+
+  disp = "display";
+  aud  = "audio";
+  while (_xmlReader && _xmlReader->read())
+  {
+    switch (_xmlReader->getNodeType())
+    {
+    case irr::io::EXN_ELEMENT:
+    {
+      if (disp.equalsn(_xmlReader->getNodeName(), disp.size()))
+      {
+	_width	= _xmlReader->getAttributeValueAsInt(L"width");
+	_height = _xmlReader->getAttributeValueAsInt(L"height");
+	if (((_width != 1280) && (_width != 1600) && (_width != 1920)) ||
+	    ((_height != 720) && (_height != 900) && (_height != 1080)))
+	{
+	  _width  = 1920;
+	  _height = 1080;
+	}
+	_fullscreen = _xmlReader->getAttributeValueAsInt(L"fullscreen");
+	_vsync	    = _xmlReader->getAttributeValueAsInt(L"vsync");
+	_aa	    = _xmlReader->getAttributeValueAsInt(L"antialias");
+      }
+      else if (aud.equalsn(_xmlReader->getNodeName(), aud.size()))
+      {
+	_soundMute  = _xmlReader->getAttributeValueAsInt(L"soundMute");
+	_soundLevel = _xmlReader->getAttributeValueAsInt(L"soundLevel");
+	if ((_soundLevel > 100) || (_soundLevel < 0))
+	  _soundLevel = 50;
+	_musicMute  = _xmlReader->getAttributeValueAsInt(L"musicMute");
+	_musicLevel = _xmlReader->getAttributeValueAsInt(L"musicLevel");
+	if ((_musicLevel > 100) || (_musicLevel < 0))
+	  _musicLevel = 50;
+	_effectsMute  = _xmlReader->getAttributeValueAsInt(L"effectsMute");
+	_effectsLevel = _xmlReader->getAttributeValueAsInt(L"effectsLevel");
+	if ((_effectsLevel > 100) || (_effectsLevel < 0))
+	  _effectsLevel = 50;
+      }
+      break;
+    }
+    }
+  }
+  _xmlReader->drop();
+  saveConf();
+}
+
+void     Options::saveConf()
+{
+  if (!_NullDevice)
+    return;
+  _xmlWriter = _NullDevice->getFileSystem()->createXMLWriter("./conf.xml");
+  if (!_xmlWriter)
+    return;
+
+  _xmlWriter->writeXMLHeader();
+
+  irr::core::array<irr::core::stringw>   names;
+  names.push_back(L"soundLevel");
+  names.push_back(L"soundMute");
+  names.push_back(L"musicLevel");
+  names.push_back(L"musicMute");
+  names.push_back(L"effectsLevel");
+  names.push_back(L"effectsMute");
+
+  irr::core::array<irr::core::stringw>   values;
+  values.push_back(irr::core::stringw(_soundLevel).c_str());
+  values.push_back(irr::core::stringw(_soundMute).c_str());
+  values.push_back(irr::core::stringw(_musicLevel).c_str());
+  values.push_back(irr::core::stringw(_musicMute).c_str());
+  values.push_back(irr::core::stringw(_effectsLevel).c_str());
+  values.push_back(irr::core::stringw(_effectsMute).c_str());
+
+  _xmlWriter->writeElement(L"config");
+  _xmlWriter->writeLineBreak();
+
+  _xmlWriter->writeElement(L"display", true,
+    L"width", irr::core::stringw(_width).c_str(),
+    L"height", irr::core::stringw(_height).c_str(),
+    L"antialias", irr::core::stringw(_aa).c_str(),
+    L"fullscreen", irr::core::stringw(_fullscreen).c_str(),
+    L"vsync", irr::core::stringw(_vsync).c_str());
+  _xmlWriter->writeLineBreak();
+
+  _xmlWriter->writeElement(L"audio", true, names, values);
+  _xmlWriter->writeLineBreak();
+
+  _xmlWriter->writeClosingTag(L"config");
+  _xmlWriter->writeLineBreak();
+
+  _xmlWriter->drop();
+}
+
+void	     Options::setFullscreen(bool fullscreen)
 {
   _fullscreen = fullscreen;
 }
 
-bool	Options::getFullscreen() const
+bool	     Options::getFullscreen() const
 {
   return (_fullscreen);
 }
 
-void	Options::setWidth(int width)
+void	     Options::setWidth(irr::s16 width)
 {
   _width = width;
 }
 
-int	Options::getWidth() const
+irr::s16     Options::getWidth() const
 {
   return (_width);
 }
 
-void	Options::setHeight(int height)
+void	     Options::setHeight(irr::s16 height)
 {
   _height = height;
 }
-int	Options::getHeight() const
+
+irr::s16     Options::getHeight() const
 {
   return (_height);
 }
 
-void	Options::setSound(bool sound)
-{
-  _sound = sound;
-}
-bool	Options::getSound() const
-{
-  return (_sound);
-}
-
-void	Options::setMusic(bool music)
-{
-  _music = music;
-}
-bool	Options::getMusic() const
-{
-  return (_music);
-}
-
-void	Options::setEffects(bool effects)
-{
-  _effects = effects;
-}
-bool	Options::getEffects() const
-{
-  return (_effects);
-}
-
-
-void	Options::setVsync(bool vsync)
+void	     Options::setVsync(bool vsync)
 {
   _vsync = vsync;
 }
-bool	Options::getVsync() const
+
+bool	     Options::getVsync() const
 {
   return (_vsync);
 }
 
-void	Options::setAA(bool aa)
+void	     Options::setAA(bool aa)
 {
   _aa = aa;
 }
-bool	Options::getAA() const
+
+bool	     Options::getAA() const
 {
   return (_aa);
 }
 
-Options::~Options() {}
+void	     Options::setSoundMute(bool sound)
+{
+  _soundMute = sound;
+}
+
+void	     Options::setSoundLevel(irr::s16 sound)
+{
+  _soundMute = sound;
+}
+
+bool	     Options::getSoundMute() const
+{
+  return (_soundMute);
+}
+
+irr::s16     Options::getSoundLevel() const
+{
+  return (_soundMute);
+}
+
+void	     Options::setMusicMute(bool music)
+{
+  _musicMute = music;
+}
+
+void	     Options::setMusicLevel(irr::s16 music)
+{
+  _musicLevel = music;
+}
+
+bool	     Options::getMusicMute() const
+{
+  return (_musicMute);
+}
+
+irr::s16     Options::getMusicLevel() const
+{
+  return (_musicLevel);
+}
+
+void	     Options::setEffectsMute(bool effects)
+{
+  _effectsMute = effects;
+}
+
+void	     Options::setEffectsLevel(irr::s16 effects)
+{
+  _effectsLevel = effects;
+}
+
+bool	     Options::getEffectsMute() const
+{
+  return (_effectsMute);
+}
+
+irr::s16     Options::getEffectsLevel() const
+{
+  return (_effectsLevel);
+}
+
+Options::~Options()
+{
+  if (_NullDevice)
+  {
+    _NullDevice->closeDevice();
+    _NullDevice->drop();
+  }
+}

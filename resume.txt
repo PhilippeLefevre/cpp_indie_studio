@@ -1,0 +1,57 @@
++ -> variables;
+* -> fonction membres;
+
+Class	Core
+{
+   + objet Options (chargées à partir d'un fichier de conf);
+   + objet IMenu (contient la classe Menu en cours d'utilisation);
+   + objet Language (contient tout les getters pour les différentes langues)
+   + objet Game (lance le jeu après que le bouton start a été appuyé, voir toute les variables à lui envoyer)
+}
+
+Class IMenu
+{
+   * run();
+
+   Class MainMenu
+   {
+    5 boutons : new, load, scoreboard, options, quit;
+   }
+
+   Class NewMenu
+   {
+    nouveau menu : nombre d'ia (0-4), nombre de joueur (0-2), max 4 joueurs (ia et pysique)
+    Générer la map en aléatoire, choisir (aléatoire ou non) une map prédéfini, possibilité pour le joueur de choisir une map qu'il a crée
+    possibiliter de choisir les pouvoir ?
+   }
+
+   Class LoadMenu
+   {
+    liste de toute les saves contenues dans le dossier save.
+    nom de fichier save : "save_"date
+    bouton refresh qui refresh la liste des saves
+    bouton load pour trouver une save qui n'est pas dans le dossier save
+    bouton start qui lance le jeu à partir de la save sélectionnée
+   }
+
+   Class ScoreBoard
+   {
+    liste des fichiers score (entre 5 et 10);
+   }
+
+   Class OptionMenu
+   {
+    menu en plusieurs volets :  -> gestion du son : on/off tout les sons, on/off musique, on/off effets
+    -> graphismes : résolution, fullscreen, anti-aliassing...
+    -> assignation des touches
+    -> langue (easter egg arabe/isis ? autres ?)
+    bouton appliquer
+    bouton annuler
+    bouton quitter
+   }
+}
+
+Class Game
+{
+
+}

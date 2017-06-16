@@ -39,7 +39,7 @@ indie::IndestructibleBlock::IndestructibleBlock(scene::ISceneManager *scnMngr, c
 
 indie::IndestructibleBlock::~IndestructibleBlock()
 {
-        if (_mesh)
+      if (_mesh)
         {
                 _mesh->remove();
         }

@@ -14,6 +14,7 @@ set(SRC_FILES
         Entity/Character/NonPlayerCharacter.cpp
         Entity/Bomb/Normal.cpp
         Options.cpp
+	Score.cpp
 )
 
 include_directories(.
@@ -23,6 +24,10 @@ include_directories(.
         Entity/Block
         Entity/Character
         Entity/Bomb
+)
+
+link_directories(../
+lib/
 )
 
 add_executable(IndieStudio
