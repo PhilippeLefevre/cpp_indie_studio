@@ -17,6 +17,7 @@ set(SRC_FILES
 )
 
 include_directories(.
+        ../inc
         Game
         Entity
         Entity/Block
