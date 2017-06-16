@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Fri Jun 16 00:21:25 2017 Philippe Lefevre
+// Last update Sat Jun 17 01:38:54 2017 Philippe Lefevre
 //
 
 #ifndef PLAYERCHARACTER_HPP_
@@ -14,7 +14,7 @@
 # include "ICharacter.hpp"
 # include "EventReceiver.hpp"
 
-# define	_PLAYER_SPEED	50
+# define	_PLAYER_SPEED	20
 
 namespace indie
 {

@@ -39,21 +39,21 @@ target_link_libraries(
         Irrlicht
 )
 
-#set(GAME_FILES
-#        main_test.cpp
-#        Game/Game.cpp
-#        Entity/Block/DestructibleBlock.cpp
-#        Entity/Block/IndestructibleBlock.cpp
-#        Entity/Character/PlayerCharacter.cpp
-#        Entity/Character/NonPlayerCharacter.cpp
-#        Entity/Bomb/Normal.cpp
-#)
-#
-#add_executable(game
-#        ${GAME_FILES}
-#)
-#
-#target_link_libraries(
-#        game
-#        Irrlicht
-#)
+set(GAME_FILES
+        main_test.cpp
+        Game/Game.cpp
+        Entity/Block/DestructibleBlock.cpp
+        Entity/Block/IndestructibleBlock.cpp
+        Entity/Character/PlayerCharacter.cpp
+        Entity/Character/NonPlayerCharacter.cpp
+        Entity/Bomb/Normal.cpp
+)
+
+add_executable(game
+        ${GAME_FILES}
+)
+
+target_link_libraries(
+        game
+        Irrlicht
+)

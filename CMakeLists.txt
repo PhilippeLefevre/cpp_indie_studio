@@ -16,6 +16,9 @@ project(IndieStudio)
 
 set( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../ )
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g3")
+
 include_directories(inc)
 
 # add dependencies

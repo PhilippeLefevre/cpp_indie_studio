@@ -11,40 +11,40 @@
 //
 
 #ifndef GAME_HPP_
-#define GAME_HPP_
+# define GAME_HPP_
 
-#include <vector>
-#include <ITimer.h>
-#include "IndestructibleBlock.hpp"
-#include "DestructibleBlock.hpp"
-#include "PlayerCharacter.hpp"
-#include "NonPlayerCharacter.hpp"
-#include "Normal.hpp"
-#include "EventReceiver.hpp"
+# include <vector>
+# include <ITimer.h>
+# include "IndestructibleBlock.hpp"
+# include "DestructibleBlock.hpp"
+# include "PlayerCharacter.hpp"
+# include "NonPlayerCharacter.hpp"
+# include "Normal.hpp"
+# include "EventReceiver.hpp"
 
 class Game
 {
 private:
 
-  IrrlichtDevice   *_device;
-  MyEventReceiver   *_receiver;
-  scene::ISceneManager   *_sceneManager;
-  video::IVideoDriver   *_driver;
-  ITimer   *_timer;
+        IrrlichtDevice *_device;
+        MyEventReceiver *_receiver;
+        scene::ISceneManager *_sceneManager;
+        video::IVideoDriver *_driver;
+        ITimer *_timer;
 
-  std::vector<indie::IEntity*>   _ground;
-  std::vector<indie::IEntity*>   _block;
-  std::vector<indie::IEntity*>   _character;
-  std::vector<indie::IEntity*>   _bomb;
+        std::vector<indie::IEntity*> _ground;
+        std::vector<indie::IEntity*> _block;
+        std::vector<indie::IEntity*> _character;
+        std::vector<indie::IEntity*> _bomb;
 
 public:
 
-  Game();
-  virtual ~Game();
-  Game(const Game& obj);
-  Game	   & operator=(const Game& obj);
-  void	   Play();
-  void		init(const int map[15][15]);
+        Game();
+        virtual ~Game();
+        Game(const Game& obj);
+        Game &operator=(const Game& obj);
+        void Play();
+        void init(const int map[15][15]);
 };
 
 #endif /* !GAME_HPP_ */

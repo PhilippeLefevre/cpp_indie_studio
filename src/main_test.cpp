@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:13:36 2017 Philippe Lefevre
-// Last update Fri Jun 16 02:26:07 2017 John Doe
+// Last update Sat Jun 17 01:17:45 2017 Philippe Lefevre
 //
 
 #include "Game.hpp"
@@ -31,8 +31,9 @@ int	main(void)
         };
 
 
-        Game bomberman(_map);
+        Game bomberman;
 
+        bomberman.init(_map);
         bomberman.Play();
         return (0);
 }
