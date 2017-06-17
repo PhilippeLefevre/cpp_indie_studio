@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Fri Jun 16 02:06:11 2017 Philippe Lefevre
+// Last update Sat Jun 17 02:56:41 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -98,14 +98,8 @@ void indie::Normal::Explose(std::vector<indie::IEntity*> const& block, const u32
         {
                 _pos = getPosition();
                 int x, z;
-                x = _pos.X / 10 ;
-                z = _pos.Z / 10 ;
-                //x = (_pos.X / 10);
-                //z = (_pos.Z / 10);
-                //x *= 10;
-                //z *= 10;
-                //x /= 10;
-                //z /= 10;
+                x = _pos.X / 10;
+                z = _pos.Z / 10;
                 if (((indie::IBlock*)block.at((x * 14 + z + x) + 15))->isExplosible())
                 {
                         (((indie::DestructibleBlock*)block.at((x * 14 + z + x) + 15))->Explose());
@@ -122,21 +116,7 @@ void indie::Normal::Explose(std::vector<indie::IEntity*> const& block, const u32
                 {
                         (((indie::DestructibleBlock*)block.at((x * 14 + z + x) - 1))->Explose());
                 }
-
-                //for (indie::IEntity *w : block)
-                //{
-                //        f32 dist = _mesh->getPosition().getDistanceFrom(w->getPosition());
-                //        if (dist < 11)
-                //        {
-                //                if (((indie::IBlock*)w)->isExplosible())
-                //                {
-                //                        ((indie::DestructibleBlock*)w)->Explose();
-                //                }
-                //        }
-                //}
-
                 _explosed = true;
-                _pos.Y -= 20;
                 _owner->giveBomb(1);
                 setPosition(_pos);
         }

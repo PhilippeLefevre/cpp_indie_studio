@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sat Jun 17 01:52:28 2017 Philippe Lefevre
+// Last update Sat Jun 17 03:14:19 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -33,7 +33,7 @@ indie::NonPlayerCharacter::NonPlayerCharacter(scene::ISceneManager *scnMngr, cor
         {
                 std::cerr << "Error: cannot add block" << std::endl;
         }
-        _explosed = false;
+        _died = false;
         _speed = 1.0f * _PLAYER_SPEED;
         _bomb = 1;
         _MaxXZ = 130.0f;
@@ -76,9 +76,9 @@ void indie::NonPlayerCharacter::setMaterialFlag(video::E_MATERIAL_FLAG flag, boo
 
 void indie::NonPlayerCharacter::setPosition(core::vector3df const& pos)
 {
-				_mesh->setPosition(pos);
-				_mesh->updateAbsolutePosition();
-				_pos = getPosition();
+        _mesh->setPosition(pos);
+        _mesh->updateAbsolutePosition();
+        _pos = getPosition();
 }
 
 core::vector3df const& indie::NonPlayerCharacter::getPosition(void) const
@@ -107,14 +107,14 @@ bool indie::NonPlayerCharacter::isColliding(core::aabbox3df const& box) const
         return (box.intersectsWithBox(getBoundingBox()));
 }
 
-bool indie::NonPlayerCharacter::isExplosed(void) const
+bool indie::NonPlayerCharacter::isDied(void) const
 {
-        return (_explosed);
+        return (_died);
 }
 
-void indie::NonPlayerCharacter::Explose(void)
+void indie::NonPlayerCharacter::Die(void)
 {
-        _explosed = true;
+        _died = true;
         _pos.Y -= 20;
         setPosition(_pos);
 }
@@ -173,6 +173,7 @@ bool indie::NonPlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*>
               {
                       int z = ((((int)_pos.Z % 10) > 4) ? ((_pos.Z / 10) + 1) : (_pos.Z / 10));
                       int x = ((((int)_pos.X % 10) > 4) ? ((_pos.X / 10) + 1) : (_pos.X / 10));
+                      bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver, this, _timer->getTime()));
                       _bomb--;
                       return (true);
               }

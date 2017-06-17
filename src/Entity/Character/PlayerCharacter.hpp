@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Sat Jun 17 01:38:54 2017 Philippe Lefevre
+// Last update Sat Jun 17 03:14:05 2017 Philippe Lefevre
 //
 
 #ifndef PLAYERCHARACTER_HPP_
@@ -14,7 +14,7 @@
 # include "ICharacter.hpp"
 # include "EventReceiver.hpp"
 
-# define	_PLAYER_SPEED	20
+# define	_PLAYER_SPEED	50
 
 namespace indie
 {
@@ -27,7 +27,7 @@ namespace indie
                 core::vector3df _pos;
                 MyEventReceiver *_receiver;
                 ITimer *_timer;
-                bool _explosed;
+                bool _died;
                 f32 _speed;
                 unsigned int _bomb;
         public:
@@ -42,8 +42,8 @@ namespace indie
                 core::vector3df const& getRotation(void) const;
                 core::aabbox3df const getBoundingBox(void) const;
                 bool isColliding(core::aabbox3df const& box) const;
-                bool isExplosed(void) const;
-                void Explose(void);
+                bool isDied(void) const;
+                void Die(void);
                 bool Move(const f32, std::vector<indie::IEntity*> const&, std::vector<indie::IEntity*>*);
                 void giveBomb(unsigned int);
         };

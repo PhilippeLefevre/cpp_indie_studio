@@ -36,7 +36,13 @@ Game::~Game()
                 delete w;
         }
         if (_receiver)
-        delete _receiver;
+        {
+                delete _receiver;
+        }
+        if (_device)
+        {
+                _device->drop();
+        }
 }
 
 Game::Game(const Game& obj)
@@ -44,12 +50,12 @@ Game::Game(const Game& obj)
 
 }
 
-Game	 & Game::operator=(const Game& obj)
+Game &Game::operator=(const Game& obj)
 {
 
 }
 
-void     Game::init(const int _map[15][15])
+void Game::init(const int _map[15][15])
 {
         _receiver = new MyEventReceiver;
         _device   = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(1280, 720), 32, false, false, false, _receiver);
@@ -88,7 +94,7 @@ void     Game::init(const int _map[15][15])
         }
 }
 
-void	 Game::Play()
+void Game::Play()
 {
         u32   then = _device->getTimer()->getTime();
 
@@ -104,18 +110,44 @@ void	 Game::Play()
                 const u32   now = _device->getTimer()->getTime();
                 const f32   fps = (f32)(now - then) / 1000.0f;
                 then = now;
+                int i = 0;
                 for (indie::IEntity *w : _character)
                 {
-                        bool   status = ((indie::ICharacter*)w)->Move(fps, _block, &_bomb);
+                        if (((indie::ICharacter*)w)->isDied() == false)
+                        {
+                                i++;
+                                ((indie::ICharacter*)w)->Move(fps, _block, &_bomb);
+                        }
+                }
+                if (i <= 1)
+                {
+                        std::cout << "Won Game" << std::endl;
+                        break;
                 }
                 for (indie::IEntity *w : _bomb)
                 {
                         if (w && ((indie::IBomb*)w)->isExplosed() == false)
                         {
                                 ((indie::IBomb*)w)->Explose(_block, _timer->getTime());
+                                if (((indie::IBomb*)w)->isExplosed() == true)
+                                {
+                                        core::vector3df pos_bomb = ((indie::IBomb*)w)->getPosition();
+                                        int i = 0;
+                                        for (indie::IEntity *v : _character)
+                                        {
+                                                if (((indie::IBomb*)w)->getPosition().getDistanceFrom(((indie::ICharacter*)v)->getPosition()) < 13)
+                                                {
+
+                                                        ((indie::ICharacter*)v)->setPosition(core::vector3df(((indie::ICharacter*)v)->getPosition().X, -100.0f, ((indie::ICharacter*)v)->getPosition().Z));
+                                                        ((indie::ICharacter*)v)->Die();
+                                                        _character.erase(_character.begin() + i);
+                                                }
+                                                i++;
+                                        }
+                                        ((indie::IBomb*)w)->setPosition(core::vector3df(((indie::IBomb*)w)->getPosition().X, -100.0f, ((indie::IBomb*)w)->getPosition().Z));
+                                }
                         }
                 }
-
                 // for (indie::IEntity *w : _bomb)
                 // {
                 //        if (((indie::IBomb*)w)->isExplosed())
@@ -129,6 +161,4 @@ void	 Game::Play()
                 _device->getGUIEnvironment()->drawAll();
                 _driver->endScene();
         }
-        if (_device)
-        _device->drop();
 }
