@@ -26,6 +26,7 @@ namespace indie
                 indie::ICharacter *_owner;
                 u32 _time;
                 bool _explosed;
+                int _level;
         public:
                 Normal(scene::ISceneManager*, core::vector3df, video::IVideoDriver*, indie::ICharacter*, u32);
                 ~Normal(void);

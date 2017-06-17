@@ -71,24 +71,24 @@ void Game::init(const int _map[15][15])
         {
                 for (size_t y = 0; y < 15; y++)
                 {
-                        _ground.push_back(new indie::IndestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -80.0f, (y * 10.0f)), _driver));
+                        _ground.push_back(new indie::IndestructibleBlock(_sceneManager, core::vector3df((x * 10), -80.0f, (y * 10)), _driver));
 
                         switch (_map[x][y])
                         {
-                                case indie::EntityType::BLOCK_EMPTY: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::BLOCK_INDESTRUCTIBLE: _block.push_back(new indie::IndestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver)); break;
-                                case indie::EntityType::BLOCK_DESTRUCTIBLE: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, false)); break;
-                                case indie::EntityType::PC_ONE: _character.push_back(new indie::PlayerCharacter(_sceneManager, core::vector3df((x * 10.0f + 0.5f), -70.0f, (y * 10.0f + 0.5f)), _driver, _receiver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::PC_TWO: _character.push_back(new indie::PlayerCharacter(_sceneManager, core::vector3df((x * 10.0f + 0.5f), -70.0f, (y * 10.0f + 0.5f)), _driver, _receiver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::PC_THREE: _character.push_back(new indie::PlayerCharacter(_sceneManager, core::vector3df((x * 10.0f + 0.5f), -70.0f, (y * 10.0f + 0.5f)), _driver, _receiver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::PC_FOUR: _character.push_back(new indie::PlayerCharacter(_sceneManager, core::vector3df((x * 10.0f + 0.5f), -70.0f, (y * 10.0f + 0.5f)), _driver, _receiver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::NPC_ONE: _character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10.0f + 0.5f), -70.0f, (y * 10.0f + 0.5f)), _driver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::NPC_TWO: _character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10.0f + 0.5f), -70.0f, (y * 10.0f + 0.5f)), _driver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::NPC_THREE: _character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10.0f + 0.5f), -70.0f, (y * 10.0f + 0.5f)), _driver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::NPC_FOUR: _character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10.0f + 0.5f), -70.0f, (y * 10.0f + 0.5f)), _driver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, true)); break;
-                                case indie::EntityType::POWERUP_BOMBUP: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, false)); break;
-                                case indie::EntityType::POWERUP_SPEED: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, false)); break;
-                                case indie::EntityType::POWERUP_VEST: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10.0f), -70.0f, (y * 10.0f)), _driver, false)); break;
+                                case indie::EntityType::BLOCK_EMPTY: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::BLOCK_INDESTRUCTIBLE: _block.push_back(new indie::IndestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver)); std::cout << "do random to put powerup a same place with hitbox more small" << std::endl; break;
+                                case indie::EntityType::BLOCK_DESTRUCTIBLE: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, false)); break;
+                                case indie::EntityType::PC_ONE: _character.push_back(new indie::PlayerCharacter(_sceneManager, core::vector3df((x * 10 + 0.5f), -70.0f, (y * 10 + 0.5f)), _driver, _receiver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::PC_TWO: _character.push_back(new indie::PlayerCharacter(_sceneManager, core::vector3df((x * 10 + 0.5f), -70.0f, (y * 10 + 0.5f)), _driver, _receiver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::PC_THREE: _character.push_back(new indie::PlayerCharacter(_sceneManager, core::vector3df((x * 10 + 0.5f), -70.0f, (y * 10 + 0.5f)), _driver, _receiver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::PC_FOUR: _character.push_back(new indie::PlayerCharacter(_sceneManager, core::vector3df((x * 10 + 0.5f), -70.0f, (y * 10 + 0.5f)), _driver, _receiver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::NPC_ONE: _character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10 + 0.5f), -70.0f, (y * 10 + 0.5f)), _driver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::NPC_TWO: _character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10 + 0.5f), -70.0f, (y * 10 + 0.5f)), _driver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::NPC_THREE: _character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10 + 0.5f), -70.0f, (y * 10 + 0.5f)), _driver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::NPC_FOUR: _character.push_back(new indie::NonPlayerCharacter(_sceneManager, core::vector3df((x * 10 + 0.5f), -70.0f, (y * 10 + 0.5f)), _driver, _timer)); _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;
+                                case indie::EntityType::POWERUP_BOMBUP: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, false)); break;
+                                case indie::EntityType::POWERUP_SPEED: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, false)); break;
+                                case indie::EntityType::POWERUP_VEST: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, false)); break;
                         }
                 }
         }
@@ -148,14 +148,15 @@ void Game::Play()
                                 }
                         }
                 }
-                // for (indie::IEntity *w : _bomb)
-                // {
-                //        if (((indie::IBomb*)w)->isExplosed())
-                //        {
-                //                delete w;
-                //                break;
-                //        }
-                // }
+                int j = 0;
+                for (indie::IEntity *w : _bomb)
+                {
+                        if (((indie::IBomb*)w)->isExplosed())
+                        {
+                                _bomb.erase(_bomb.begin() + j);
+                        }
+                        j++;
+                }
                 _driver->beginScene(true, true, video::SColor(255, 113, 113, 133));
                 _sceneManager->drawAll();
                 _device->getGUIEnvironment()->drawAll();

@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Wed Jun 14 18:05:43 2017 Philippe Lefevre
+// Last update Sat Jun 17 04:29:44 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -14,7 +14,7 @@
 indie::IndestructibleBlock::IndestructibleBlock(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver) : _scnMngr(scnMngr), _pos(pos), _driver(driver)
 {
         std::string txt = "media/texture_blue.bmp";
-        _mesh = _scnMngr->addCubeSceneNode(10.0f, 0, -1, _pos);
+        _mesh = _scnMngr->addCubeSceneNode(10, 0, -1, _pos);
         if (_mesh)
         {
                 video::ITexture *texture = _driver->getTexture(txt.data());

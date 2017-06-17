@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sat Jun 17 03:14:19 2017 Philippe Lefevre
+// Last update Sat Jun 17 05:03:49 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -17,7 +17,7 @@
 indie::NonPlayerCharacter::NonPlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, ITimer *timer) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _timer(timer)
 {
         std::string txt = "media/texture_yellow.bmp";
-        _mesh = _scnMngr->addCubeSceneNode(10.0f, 0, -1, _pos);
+        _mesh = _scnMngr->addCubeSceneNode(10, 0, -1, _pos);
         if (_mesh)
         {
                 video::ITexture *texture = _driver->getTexture(txt.data());
@@ -173,7 +173,7 @@ bool indie::NonPlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*>
               {
                       int z = ((((int)_pos.Z % 10) > 4) ? ((_pos.Z / 10) + 1) : (_pos.Z / 10));
                       int x = ((((int)_pos.X % 10) > 4) ? ((_pos.X / 10) + 1) : (_pos.X / 10));
-                      bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10.0f), -70.0f, (z * 10.0f)), _driver, this, _timer->getTime()));
+                      bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10), -70.0f, (z * 10)), _driver, this, _timer->getTime()));
                       _bomb--;
                       return (true);
               }

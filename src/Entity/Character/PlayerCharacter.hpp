@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Sat Jun 17 03:14:05 2017 Philippe Lefevre
+// Last update Sat Jun 17 04:30:53 2017 Philippe Lefevre
 //
 
 #ifndef PLAYERCHARACTER_HPP_
@@ -14,7 +14,7 @@
 # include "ICharacter.hpp"
 # include "EventReceiver.hpp"
 
-# define	_PLAYER_SPEED	50
+# define	_PLAYER_SPEED	40
 
 namespace indie
 {
@@ -25,6 +25,7 @@ namespace indie
                 scene::ISceneManager *_scnMngr;
                 video::IVideoDriver* _driver;
                 core::vector3df _pos;
+                core::vector3df _rot;
                 MyEventReceiver *_receiver;
                 ITimer *_timer;
                 bool _died;

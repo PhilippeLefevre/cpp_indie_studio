@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sat Jun 17 02:56:41 2017 Philippe Lefevre
+// Last update Sat Jun 17 05:03:04 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -28,6 +28,7 @@ indie::Normal::Normal(scene::ISceneManager *scnMngr, core::vector3df pos, video:
                 std::cerr << "Error: cannot add bomb" << std::endl;
         }
         _explosed = false;
+        _level = 2;
 }
 
 indie::Normal::~Normal()
@@ -100,21 +101,24 @@ void indie::Normal::Explose(std::vector<indie::IEntity*> const& block, const u32
                 int x, z;
                 x = _pos.X / 10;
                 z = _pos.Z / 10;
-                if (((indie::IBlock*)block.at((x * 14 + z + x) + 15))->isExplosible())
+                for (size_t i = 0; i < _level; i++)
                 {
-                        (((indie::DestructibleBlock*)block.at((x * 14 + z + x) + 15))->Explose());
-                }
-                if (((indie::IBlock*)block.at((x * 14 + z + x) - 15))->isExplosible())
-                {
-                        (((indie::DestructibleBlock*)block.at((x * 14 + z + x) - 15))->Explose());
-                }
-                if (((indie::IBlock*)block.at((x * 14 + z + x) + 1))->isExplosible())
-                {
-                        (((indie::DestructibleBlock*)block.at((x * 14 + z + x) + 1))->Explose());
-                }
-                if (((indie::IBlock*)block.at((x * 14 + z + x) - 1))->isExplosible())
-                {
-                        (((indie::DestructibleBlock*)block.at((x * 14 + z + x) - 1))->Explose());
+                        if (((x * 14 + z + x) + (i * 15)) > 0 && ((x * 14 + z + x) + (i * 15)) < 225 && ((indie::IBlock*)block.at((x * 14 + z + x) + (i * 15)))->isExplosible())
+                        {
+                                (((indie::DestructibleBlock*)block.at((x * 14 + z + x) + (i * 15)))->Explose());
+                        }
+                        if (((x * 14 + z + x) - (i * 15)) > 0 && ((x * 14 + z + x) - (i * 15)) < 225 && ((indie::IBlock*)block.at((x * 14 + z + x) - (i * 15)))->isExplosible())
+                        {
+                                (((indie::DestructibleBlock*)block.at((x * 14 + z + x) - (i * 15)))->Explose());
+                        }
+                        if (((x * 14 + z + x) + (i * 1)) > 0 && ((x * 14 + z + x) + (i * 1)) < 225 && ((indie::IBlock*)block.at((x * 14 + z + x) + (i * 1)))->isExplosible())
+                        {
+                                (((indie::DestructibleBlock*)block.at((x * 14 + z + x) + (i * 1)))->Explose());
+                        }
+                        if (((x * 14 + z + x) - (i * 1)) > 0 && ((x * 14 + z + x) - (i * 1)) < 225 && ((indie::IBlock*)block.at((x * 14 + z + x) - (i * 1)))->isExplosible())
+                        {
+                                (((indie::DestructibleBlock*)block.at((x * 14 + z + x) - (i * 1)))->Explose());
+                        }
                 }
                 _explosed = true;
                 _owner->giveBomb(1);
