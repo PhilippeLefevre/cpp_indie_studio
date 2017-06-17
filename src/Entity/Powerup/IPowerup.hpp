@@ -1,11 +1,11 @@
 //
-// IBlock.hpp for IndieStudio in /home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Block/
+// IPowerup.hpp for IndieStudio in /home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Powerup/
 //
 // Made by Philippe Lefevre
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 11 02:04:03 2017 Philippe Lefevre
-// Last update Sat Jun 17 05:12:59 2017 Philippe Lefevre
+// Last update Sat Jun 17 12:33:30 2017 Philippe Lefevre
 //
 
 
@@ -16,10 +16,10 @@
 
 namespace indie
 {
-        class IBlock : public IEntity
+        class IPowerup : public IEntity
         {
         public:
-                virtual ~IBlock(void) {}
+                virtual ~IPowerup(void) {}
                 virtual void setPosition(core::vector3df const&) = 0;
                 virtual core::vector3df const& getPosition(void) const = 0;
                 virtual void setRotation(core::vector3df const&) = 0;
