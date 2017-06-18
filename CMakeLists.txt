@@ -16,13 +16,15 @@ project(IndieStudio)
 
 set( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../ )
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g3")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -std=c++11")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -03- ffast-math -std=c++11")
 
-include_directories(inc)
+# Included stuff
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-# add dependencies
-add_subdirectory(dep)
+
+# This is done here so that relative search paths are more reasonable
+find_package(Irrlicht)
 
 # add core sources
 add_subdirectory(src)

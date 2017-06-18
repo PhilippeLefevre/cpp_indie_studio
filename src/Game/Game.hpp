@@ -1,13 +1,11 @@
 //
-
-// Game.hpp for IndieStudio in
-// /home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Game/
+// Game.hpp for IndieStudio in /home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Game/
 //
 // Made by Philippe Lefevre
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 11 01:42:46 2017 Philippe Lefevre
-// Last update Thu Jun 15 23:48:58 2017 Philippe Lefevre
+// Last update Sun Jun 18 10:30:07 2017 Philippe Lefevre
 //
 
 #ifndef GAME_HPP_
@@ -20,6 +18,7 @@
 # include "PlayerCharacter.hpp"
 # include "NonPlayerCharacter.hpp"
 # include "Normal.hpp"
+# include "Bombup.hpp"
 # include "EventReceiver.hpp"
 
 class Game
@@ -36,6 +35,7 @@ private:
         std::vector<indie::IEntity*> _block;
         std::vector<indie::IEntity*> _character;
         std::vector<indie::IEntity*> _bomb;
+        std::vector<indie::IEntity*> _powerup;
 
 public:
 

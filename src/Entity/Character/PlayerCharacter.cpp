@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sat Jun 17 05:03:29 2017 Philippe Lefevre
+// Last update Sun Jun 18 13:55:41 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -153,7 +153,16 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
         }
         if (_receiver->IsKeyDown(KEY_SPACE))
         {
-                if (_bomb > 0)
+                int near;
+                for (indie::IEntity *w : *bomb)
+                {
+                        if ((near = ((indie::IBomb*)w)->getPosition().getDistanceFrom(getPosition())) < 13)
+                        {
+                                std::cout << "true" << std::endl;
+                        }
+                }
+                std::cout << _bomb << "# " << near << std::endl;
+                if (_bomb > 0 && (near == 0 || near > 11))
                 {
                         int z = ((((int)_pos.Z % 10) > 4) ? ((_pos.Z / 10) + 1) : (_pos.Z / 10));
                         int x = ((((int)_pos.X % 10) > 4) ? ((_pos.X / 10) + 1) : (_pos.X / 10));
@@ -162,6 +171,7 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
                         return (true);
                 }
         }
+        //std::cout << _bomb << std::endl;
         return (false);
 }
 

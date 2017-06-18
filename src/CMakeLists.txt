@@ -1,34 +1,30 @@
-#set(SRC_FILES
-#        Main.cpp
-#        MainMenu.cpp
-#        Options.cpp
-#)
-
 set(SRC_FILES
-        MainMenu.cpp
         Main.cpp
-        Game/Game.cpp
-        Entity/Block/DestructibleBlock.cpp
-        Entity/Block/IndestructibleBlock.cpp
-        Entity/Character/PlayerCharacter.cpp
-        Entity/Character/NonPlayerCharacter.cpp
-        Entity/Bomb/Normal.cpp
+        MainMenu.cpp
         Options.cpp
-	Score.cpp
+        Score.cpp
+        Game/Game.cpp
+        Entity/Block/IndestructibleBlock.cpp
+        Entity/Block/DestructibleBlock.cpp
+        Entity/Bomb/Normal.cpp
+        Entity/Character/NonPlayerCharacter.cpp
+        Entity/Character/PlayerCharacter.cpp
+        Entity/Powerup/Bombup.cpp
 )
 
 include_directories(.
-        ../inc
+        "/usr/include/irrlicht"
         Game
         Entity
         Entity/Block
         Entity/Character
         Entity/Bomb
+        Entity/Powerup
 )
 
-link_directories(../
-lib/
-)
+#link_directories(../
+#lib/
+#)
 
 add_executable(IndieStudio
         ${SRC_FILES}
@@ -37,6 +33,11 @@ add_executable(IndieStudio
 target_link_libraries(
         IndieStudio
         Irrlicht
+        GL
+        Xxf86vm
+        Xext
+        X11
+        Xcursor
 )
 
 set(GAME_FILES
@@ -47,6 +48,7 @@ set(GAME_FILES
         Entity/Character/PlayerCharacter.cpp
         Entity/Character/NonPlayerCharacter.cpp
         Entity/Bomb/Normal.cpp
+        Entity/Powerup/Bombup.cpp
 )
 
 add_executable(game
@@ -56,4 +58,9 @@ add_executable(game
 target_link_libraries(
         game
         Irrlicht
+        GL
+        Xxf86vm
+        Xext
+        X11
+        Xcursor
 )
