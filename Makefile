@@ -74,4 +74,3 @@ endif
 ifeq ($(HOSTTYPE), sun4)
 LDFLAGS += -lrt
 endif
->>>>>>> ecbd44a1d058dfc39aa57b28c6d5a2aae90a7a3d
