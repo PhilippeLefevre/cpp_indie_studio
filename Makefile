@@ -13,6 +13,7 @@ Sources := ./src/Main.cpp \
 	./src/Entity/Block/IndestructibleBlock.cpp \
 	./src/Entity/Block/DestructibleBlock.cpp \
 	./src/Entity/Bomb/Normal.cpp \
+	./src/Entity/Powerup/Bombup.cpp \
 	./src/Entity/Character/NonPlayerCharacter.cpp \
 	./src/Entity/Character/PlayerCharacter.cpp
 # Path to Irrlicht directory, should contain include/ and lib/
@@ -33,7 +34,7 @@ USERLDFLAGS =
 #no changes necessary below this line
 ####
 
-CPPFLAGS = -I$(IrrlichtHome)/include -I/usr/X11R6/include $(USERCPPFLAGS) -Iinc -I./src/Game/ -I./src/Entity/Block/ -I./src/Entity/ -I./src/Entity/Bomb/ -I./src/Entity/Powerup/ -I./src/Entity/Character/ -I./src/
+CPPFLAGS = -I$(IrrlichtHome)/include -I/usr/X11R6/include $(USERCPPFLAGS) -Iinc -I./src/Game/ -I./src/Entity/Block/ -I./src/Entity/ -I./src/Entity/Bomb/ -I./src/Entity/Powerup/ -I./src/Entity/Character/ -I./src/Entity/Powerup -I./src/
 CXXFLAGS = $(USERCXXFLAGS)
 LDFLAGS = $(USERLDFLAGS)
 
