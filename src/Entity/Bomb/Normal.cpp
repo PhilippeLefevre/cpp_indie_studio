@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sat Jun 17 05:03:04 2017 Philippe Lefevre
+// Last update Sun Jun 18 21:52:25 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -43,12 +43,18 @@ indie::Normal::Normal(const Normal &obj)
 {
         _mesh = obj._mesh;
         _scnMngr = obj._scnMngr;
+        _driver = obj._driver;
         _pos = obj._pos;
+        _owner = obj._owner;
+        _time = obj._time;
+        _explosed = obj._explosed;
+        _level = obj._level;
 }
 
 indie::Normal &indie::Normal::operator=(const Normal &obj)
 {
-        // DO CANONICAL
+        Normal *tmp = new Normal(obj);
+        return (*tmp);
 }
 
 void indie::Normal::setMaterialFlag(video::E_MATERIAL_FLAG flag, bool value)

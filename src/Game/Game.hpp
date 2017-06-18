@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 11 01:42:46 2017 Philippe Lefevre
-// Last update Sun Jun 18 10:30:07 2017 Philippe Lefevre
+// Last update Sun Jun 18 17:08:18 2017 Philippe Lefevre
 //
 
 #ifndef GAME_HPP_
@@ -44,7 +44,7 @@ public:
         Game(const Game& obj);
         Game &operator=(const Game& obj);
         void Play();
-        void init(const int map[15][15]);
+        void init(std::vector<indie::EntityType> const);
 };
 
 #endif /* !GAME_HPP_ */

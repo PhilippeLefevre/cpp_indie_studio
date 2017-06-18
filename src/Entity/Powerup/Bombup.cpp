@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 14:02:42 2017 Philippe Lefevre
+// Last update Sun Jun 18 21:54:36 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -44,12 +44,15 @@ indie::Bombup::Bombup(const Bombup &obj)
 {
         _mesh = obj._mesh;
         _scnMngr = obj._scnMngr;
+        _driver = obj._driver;
         _pos = obj._pos;
+        _pickup = obj._pickup;
 }
 
 indie::Bombup &indie::Bombup::operator=(const Bombup &obj)
 {
-        // DO CANONICAL
+        Bombup *tmp = new Bombup(obj);
+        return (*tmp);
 }
 
 void indie::Bombup::setMaterialFlag(video::E_MATERIAL_FLAG flag, bool value)

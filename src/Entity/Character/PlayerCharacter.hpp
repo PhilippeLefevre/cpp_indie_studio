@@ -30,9 +30,10 @@ namespace indie
                 ITimer *_timer;
                 bool _died;
                 f32 _speed;
+		int _id;
                 unsigned int _bomb;
         public:
-                PlayerCharacter(scene::ISceneManager*, core::vector3df, video::IVideoDriver*, MyEventReceiver*, ITimer*);
+		PlayerCharacter(scene::ISceneManager*, core::vector3df, video::IVideoDriver*, MyEventReceiver*, ITimer*, int);
                 ~PlayerCharacter(void);
                 PlayerCharacter(const PlayerCharacter &obj);
                 PlayerCharacter &operator=(const PlayerCharacter &obj);

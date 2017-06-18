@@ -5,7 +5,11 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
+<<<<<<< HEAD
 // Last update Sun Jun 18 21:57:03 2017 John Doe
+=======
+// Last update Sun Jun 18 21:06:17 2017 Philippe Lefevre
+>>>>>>> ecbd44a1d058dfc39aa57b28c6d5a2aae90a7a3d
 //
 
 #include <IVideoDriver.h>
@@ -176,11 +180,33 @@ bool indie::NonPlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*>
             }
             if (_bomb > 0 && (near == 0 || near > 11))
             {
+<<<<<<< HEAD
                     int z = ((((int)_pos.Z % 10) > 4) ? ((_pos.Z / 10) + 1) : (_pos.Z / 10));
                     int x = ((((int)_pos.X % 10) > 4) ? ((_pos.X / 10) + 1) : (_pos.X / 10));
                     bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10), -70.0f, (z * 10)), _driver, this, _timer->getTime()));
                     _bomb--;
                     return (true);
+=======
+                    if ((((indie::IBlock*)w))->isExplosible())
+                    {
+                            std::cout << "true" << std::endl;
+                    }
+              setPosition(oldPos);
+              int near;
+              for (indie::IEntity *w : *bomb)
+              {
+                      near = w->getPosition().getDistanceFrom(getPosition());
+              }
+              if (_bomb > 0 && (near == 0 || near > 11))
+              {
+                      int z = ((((int)_pos.Z % 10) > 4) ? ((_pos.Z / 10) + 1) : (_pos.Z / 10));
+                      int x = ((((int)_pos.X % 10) > 4) ? ((_pos.X / 10) + 1) : (_pos.X / 10));
+                      bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10), -70.0f, (z * 10)), _driver, this, _timer->getTime()));
+                      _bomb--;
+                      return (true);
+              }
+              break;
+>>>>>>> ecbd44a1d058dfc39aa57b28c6d5a2aae90a7a3d
             }
           }
         }
