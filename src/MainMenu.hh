@@ -5,7 +5,7 @@
 ** Login	leliev_t
 **
 ** Started on	Tue May 09 18:37:17 2017 Tanguy Lelievre
-** Last update	Fri Jun 16 16:17:45 2017 Tanguy Lelievre
+** Last update	Sun Jun 18 16:15:13 2017 Tanguy Lelievre
 */
 
 #ifndef MAINMENU_HH_
@@ -80,7 +80,9 @@ public:
   void	LoadGame();
   void	Menu();
   void	OptionMenu();
-  irr::s32	**getMap() const;
+  irr::core::stringc	getMap() const;
+  irr::s32	getNbIA() const;
+  irr::s32	getNbPlayer() const;
 
 private:
   void	prepareGUI();

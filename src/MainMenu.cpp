@@ -5,7 +5,7 @@
 ** Login	leliev_t
 **
 ** Started on	Tue May 09 18:40:29 2017 Tanguy Lelievre
-** Last update	Fri Jun 16 16:28:06 2017 Tanguy Lelievre
+** Last update	Sun Jun 18 16:21:05 2017 Tanguy Lelievre
 */
 
 #include "MainMenu.hh"
@@ -17,9 +17,6 @@ MainMenu::MainMenu() : _opts()
   createWindow();
 }
 
-irr::s32	**MainMenu::getMap() const
-{
-}
 
 void     MainMenu::prepareGUI()
 {
@@ -45,6 +42,26 @@ void     MainMenu::prepareGUI()
   // LoadGameGUI();
   NewGameGUI();
   ScoreGUI();
+}
+
+irr::s32	MainMenu::getNbIA() const
+{
+  return (((irr::gui::IGUIComboBox *)_NewGameGUI->getElementFromId(GUI_NBIA_COMBOBOX, true))->getItemData(((irr::gui::IGUIComboBox *)_NewGameGUI->getElementFromId(GUI_NBIA_COMBOBOX, true))->getSelected()));
+}
+
+irr::s32	MainMenu::getNbPlayer() const
+{
+  return (((irr::gui::IGUIComboBox *)_NewGameGUI->getElementFromId(GUI_NBPLAYER_COMBOBOX, true))->getItemData(((irr::gui::IGUIComboBox *)_NewGameGUI->getElementFromId(GUI_NBPLAYER_COMBOBOX, true))->getSelected()));
+}
+
+irr::core::stringc MainMenu::getMap() const
+{
+  irr::core::stringw	map;
+
+  map = "/media/maps/";
+  map += ((irr::gui::IGUIListBox *)_NewGameGUI->getElementFromId(GUI_MAP_LISTBOX, true))->getListItem(((irr::gui::IGUIListBox *)_NewGameGUI->getElementFromId(GUI_MAP_LISTBOX, true))->getSelected());
+  map+= ".bbm";
+  return (map);
 }
 
 void	MainMenu::ScoreGUI()
