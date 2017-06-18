@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 11:05:52 2017 Philippe Lefevre
+// Last update Sun Jun 18 14:02:42 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -92,6 +92,10 @@ bool indie::Bombup::isColliding(core::aabbox3df const& box) const
 void indie::Bombup::setPickup(const bool pickup)
 {
         _pickup = pickup;
+        if (_pickup == true)
+        {
+                setPosition(core::vector3df(getPosition().X, -100.0f, getPosition().Z));
+        }
 }
 
 bool indie::Bombup::getPickup() const

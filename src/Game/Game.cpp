@@ -36,6 +36,14 @@ Game::~Game()
         {
                 delete w;
         }
+        for (indie::IEntity *w : _bomb)
+        {
+                delete w;
+        }
+        for (indie::IEntity *w : _powerup)
+        {
+                delete w;
+        }
         if (_receiver)
         {
                 delete _receiver;
@@ -170,9 +178,11 @@ void Game::Play()
                                         {
                                                 ((indie::ICharacter*)v)->giveBomb(1);
                                                 ((indie::IPowerup*)w)->setPickup(true);
+                                                _powerup.erase(_powerup.begin() + k);
                                         }
                                 }
                         }
+                        k++;
                 }
                 _driver->beginScene(true, true, video::SColor(255, 113, 113, 133));
                 _sceneManager->drawAll();

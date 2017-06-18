@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 13:55:41 2017 Philippe Lefevre
+// Last update Sun Jun 18 14:20:47 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -151,17 +151,24 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
                         break;
                 }
         }
+        for (indie::IEntity *w : *bomb)
+        {
+                std::cout << w->getPosition().getDistanceFrom(getPosition()) << std::endl;
+                //if (isColliding(w->getBoundingBox()) && (w->getPosition().X / 10) != (oldPos.X / 10) && (w->getPosition().Z / 10) != (oldPos.Z / 10))
+                if (isColliding(w->getBoundingBox()) == true && w->getPosition().getDistanceFrom(oldPos) > 5.5f)
+                {
+                        setPosition(oldPos);
+                        setRotation(oldRot);
+                        break;
+                }
+        }
         if (_receiver->IsKeyDown(KEY_SPACE))
         {
                 int near;
                 for (indie::IEntity *w : *bomb)
                 {
-                        if ((near = ((indie::IBomb*)w)->getPosition().getDistanceFrom(getPosition())) < 13)
-                        {
-                                std::cout << "true" << std::endl;
-                        }
+                        near = w->getPosition().getDistanceFrom(getPosition());
                 }
-                std::cout << _bomb << "# " << near << std::endl;
                 if (_bomb > 0 && (near == 0 || near > 11))
                 {
                         int z = ((((int)_pos.Z % 10) > 4) ? ((_pos.Z / 10) + 1) : (_pos.Z / 10));
@@ -171,7 +178,6 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
                         return (true);
                 }
         }
-        //std::cout << _bomb << std::endl;
         return (false);
 }
 
