@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 22:01:53 2017 John Doe
+// Last update Sun Jun 18 22:33:23 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -19,16 +19,15 @@
 indie::NonPlayerCharacter::NonPlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, ITimer *timer) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _timer(timer)
 {
         std::string txt = "media/texture_yellow.bmp";
-        _mesh = _scnMngr->addCubeSceneNode(10, 0, -1, _pos);
+        std::string obj = "media/BB8/bb8.obj";
+
+        _mesh = _scnMngr->addMeshSceneNode(_scnMngr->getMesh(obj.data()));
         if (_mesh)
         {
-                video::ITexture *texture = _driver->getTexture(txt.data());
-                if (texture != 0)
-                {
-                        _mesh->setMaterialTexture(0, texture);
-                }
+                _mesh->setPosition(pos);
+                _mesh->setRotation(core::vector3df(0.0f, 180.0f, 0.0f));
                 _mesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-                _mesh->setScale(core::vector3df(0.5f, 2.5f, 0.5f));
+                _mesh->setScale(core::vector3df(0.05f, 0.05f, 0.05f));
 
         }
         else
@@ -57,12 +56,23 @@ indie::NonPlayerCharacter::NonPlayerCharacter(const NonPlayerCharacter &obj)
 {
         _mesh = obj._mesh;
         _scnMngr = obj._scnMngr;
+        _driver = obj._driver;
         _pos = obj._pos;
+        _timer = obj._timer;
+        _MaxXZ = obj._MaxXZ;
+        _MinXZ = obj._MinXZ;
+        _died = obj._died;
+        _speed = obj._speed;
+        _bomb = obj._bomb;
+        _goal = obj._goal;
+        _direction = obj._direction;
+        _collision = obj._collision;
 }
 
 indie::NonPlayerCharacter &indie::NonPlayerCharacter::operator=(const NonPlayerCharacter &obj)
 {
-        // DO CANONICAL
+        NonPlayerCharacter *tmp = new NonPlayerCharacter(obj);
+        return (*tmp);
 }
 
 void indie::NonPlayerCharacter::setMaterialFlag(video::E_MATERIAL_FLAG flag, bool value)
