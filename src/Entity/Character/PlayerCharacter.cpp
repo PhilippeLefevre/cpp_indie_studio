@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 15:57:54 2017 Philippe Lefevre
+// Last update Sun Jun 18 21:50:25 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -14,24 +14,17 @@
 #include "IBlock.hpp"
 #include "Normal.hpp"
 
-indie::PlayerCharacter::PlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, MyEventReceiver *receiver, ITimer *timer) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _receiver(receiver), _timer(timer)
+indie::PlayerCharacter::PlayerCharacter(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, MyEventReceiver *receiver, ITimer *timer, int id) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _receiver(receiver), _timer(timer), _id(id)
 {
         std::string txt = "media/texture_green.bmp";
         std::string obj = "media/BB8/bb8.obj";
 
-        //_mesh = _scnMngr->addCubeSceneNode(10, 0, -1, _pos);
         _mesh = _scnMngr->addMeshSceneNode(_scnMngr->getMesh(obj.data()));
         if (_mesh)
         {
-                //video::ITexture *texture = _driver->getTexture(txt.data());
-                //if (texture != 0)
-                //{
-                //        _mesh->setMaterialTexture(0, texture);
-                //}
                 _mesh->setPosition(pos);
                 _mesh->setRotation(core::vector3df(0.0f, 180.0f, 0.0f));
                 _mesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-                //_mesh->setScale(core::vector3df(3.0f, 3.0f, 2.6f));
                 _mesh->setScale(core::vector3df(0.05f, 0.05f, 0.05f));
 
         }
@@ -56,12 +49,21 @@ indie::PlayerCharacter::PlayerCharacter(const PlayerCharacter &obj)
 {
         _mesh = obj._mesh;
         _scnMngr = obj._scnMngr;
+        _driver = obj._driver;
         _pos = obj._pos;
+        _rot = obj._rot;
+        _receiver = obj._receiver;
+        _timer = obj._timer;
+        _died = obj._died;
+        _speed = obj._speed;
+        _id = obj._id;
+        _bomb = obj._bomb;
 }
 
 indie::PlayerCharacter &indie::PlayerCharacter::operator=(const PlayerCharacter &obj)
 {
-        // DO CANONICAL
+        PlayerCharacter *tmp = new PlayerCharacter(obj);
+        return (*tmp);
 }
 
 void indie::PlayerCharacter::setMaterialFlag(video::E_MATERIAL_FLAG flag, bool value)
@@ -121,22 +123,22 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
 
         oldRot = getRotation();
         oldPos = getPosition();
-        if (_receiver->IsKeyDown(KEY_KEY_Z))
+        if (_receiver->IsKeyDown((_id == 0) ? (KEY_KEY_Z) : ((_id == 1) ? (KEY_KEY_T) : ((_id == 2) ? (KEY_KEY_I) : (KEY_UP)))))
         {
                 setRotation(core::vector3df(0.0f, 0.0f, 0.0f));
                 _pos.Z += _speed * fps;
         }
-        else if (_receiver->IsKeyDown(KEY_KEY_S))
+        else if (_receiver->IsKeyDown((_id == 0) ? (KEY_KEY_S) : ((_id == 1) ? (KEY_KEY_G) : ((_id == 2) ? (KEY_KEY_K) : (KEY_DOWN)))))
         {
                 setRotation(core::vector3df(0.0f, 180.0f, 0.0f));
                 _pos.Z -= _speed * fps;
         }
-        else if (_receiver->IsKeyDown(KEY_KEY_Q))
+        else if (_receiver->IsKeyDown((_id == 0) ? (KEY_KEY_Q) : ((_id == 1) ? (KEY_KEY_F) : ((_id == 2) ? (KEY_KEY_J) : (KEY_LEFT)))))
         {
                 setRotation(core::vector3df(0.0f, -90.0f, 0.0f));
                 _pos.X -= _speed * fps;
         }
-        else if (_receiver->IsKeyDown(KEY_KEY_D))
+        else if (_receiver->IsKeyDown((_id == 0) ? (KEY_KEY_D) : ((_id == 1) ? (KEY_KEY_H) : ((_id == 2) ? (KEY_KEY_L) : (KEY_RIGHT)))))
         {
                 setRotation(core::vector3df(0.0f, 90.0f, 0.0f));
                 _pos.X += _speed * fps;
@@ -153,7 +155,6 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
         }
         for (indie::IEntity *w : *bomb)
         {
-                //if (isColliding(w->getBoundingBox()) && (w->getPosition().X / 10) != (oldPos.X / 10) && (w->getPosition().Z / 10) != (oldPos.Z / 10))
                 if (isColliding(w->getBoundingBox()) == true && w->getPosition().getDistanceFrom(oldPos) > 5.5f)
                 {
                         setPosition(oldPos);
@@ -161,7 +162,7 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
                         break;
                 }
         }
-        if (_receiver->IsKeyDown(KEY_SPACE))
+        if (_receiver->IsKeyDown((_id == 0) ? (KEY_KEY_W) : ((_id == 1) ? (KEY_KEY_V) : ((_id == 2) ? (KEY_KEY_N) : (KEY_CONTROL)))))
         {
                 int near;
                 for (indie::IEntity *w : *bomb)

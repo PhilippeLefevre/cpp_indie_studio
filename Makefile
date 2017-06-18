@@ -10,6 +10,7 @@ Sources := ./src/Main.cpp \
 	./src/Options.cpp \
 	./src/Score.cpp \
 	./src/Game/Game.cpp \
+	./src/Map/MapLoader.cpp \
 	./src/Entity/Block/IndestructibleBlock.cpp \
 	./src/Entity/Block/DestructibleBlock.cpp \
 	./src/Entity/Bomb/Normal.cpp \
@@ -34,7 +35,7 @@ USERLDFLAGS =
 #no changes necessary below this line
 ####
 
-CPPFLAGS = -I$(IrrlichtHome)/include -I/usr/X11R6/include $(USERCPPFLAGS) -Iinc -I./src/Game/ -I./src/Entity/Block/ -I./src/Entity/ -I./src/Entity/Bomb/ -I./src/Entity/Powerup/ -I./src/Entity/Character/ -I./src/Entity/Powerup -I./src/
+CPPFLAGS = -I$(IrrlichtHome)/include -I/usr/X11R6/include $(USERCPPFLAGS) -Iinc -I./src/Game/ -I./src/Entity/Block/ -I./src/Entity/ -I./src/Entity/Bomb/ -I./src/Entity/Powerup/ -I./src/Entity/Character/ -I./src/Entity/Powerup -I./src/Map/ -I./src/
 CXXFLAGS = $(USERCXXFLAGS)
 LDFLAGS = $(USERLDFLAGS)
 

@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 15:57:04 2017 Philippe Lefevre
+// Last update Sun Jun 18 21:06:17 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -168,6 +168,10 @@ bool indie::NonPlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*>
         {
           if (isColliding(w->getBoundingBox()))
             {
+                    if ((((indie::IBlock*)w))->isExplosible())
+                    {
+                            std::cout << "true" << std::endl;
+                    }
               setPosition(oldPos);
               int near;
               for (indie::IEntity *w : *bomb)

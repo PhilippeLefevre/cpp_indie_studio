@@ -5,35 +5,20 @@
 ** Login   <philippe1.lefevre@epitech.eu>
 **
 ** Started on  Wed May 24 14:43:24 2017 Philippe Lefevre
-** Last update	Fri Jun 16 16:38:12 2017 Tanguy Lelievre
+** Last update	Sun Jun 18 21:24:02 2017 Philippe Lefevre
 */
 
 #include <irrlicht.h>
 #include "MainMenu.hh"
 #include "Game.hpp"
+#include "MapLoader.hpp"
 
 int     main(void)
 {
   MainMenu   menu;
-  Game	game;
+  Game game;
+  MapLoader loader;
   irr::s32   state;
-  irr::s32 map[15][15] = {
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::NPC_TWO, indie::EntityType::BLOCK_EMPTY, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_EMPTY, indie::EntityType::PC_ONE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_EMPTY, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_EMPTY, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_EMPTY, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_EMPTY, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::NPC_TWO, indie::EntityType::BLOCK_EMPTY, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_DESTRUCTIBLE, indie::EntityType::BLOCK_EMPTY, indie::EntityType::NPC_THREE, indie::EntityType::BLOCK_INDESTRUCTIBLE },
-          { indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE, indie::EntityType::BLOCK_INDESTRUCTIBLE }
-  };
 
   while (state = menu.run())
   {
@@ -46,7 +31,8 @@ int     main(void)
     }
     else if (state == 2)
     {
-      game.init(map);
+            loader.init(menu.getMap(), menu.getNbPlayer(), menu.getNbIA());
+      game.init(loader.getMap());
       game.Play();
       menu.createWindow();
     }

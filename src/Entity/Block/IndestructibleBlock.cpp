@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sat Jun 17 04:29:44 2017 Philippe Lefevre
+// Last update Sun Jun 18 21:53:43 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -49,12 +49,14 @@ indie::IndestructibleBlock::IndestructibleBlock(const IndestructibleBlock &obj)
 {
         _mesh = obj._mesh;
         _scnMngr = obj._scnMngr;
+        _driver = obj._driver;
         _pos = obj._pos;
 }
 
 indie::IndestructibleBlock &indie::IndestructibleBlock::operator=(const IndestructibleBlock &obj)
 {
-        // DO CANONICAL
+        IndestructibleBlock *tmp = new IndestructibleBlock(obj);
+        return (*tmp);
 }
 
 void indie::IndestructibleBlock::setMaterialFlag(video::E_MATERIAL_FLAG flag, bool value)
