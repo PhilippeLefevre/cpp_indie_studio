@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 14:20:47 2017 Philippe Lefevre
+// Last update Sun Jun 18 15:57:54 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -153,7 +153,6 @@ bool indie::PlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*> co
         }
         for (indie::IEntity *w : *bomb)
         {
-                std::cout << w->getPosition().getDistanceFrom(getPosition()) << std::endl;
                 //if (isColliding(w->getBoundingBox()) && (w->getPosition().X / 10) != (oldPos.X / 10) && (w->getPosition().Z / 10) != (oldPos.Z / 10))
                 if (isColliding(w->getBoundingBox()) == true && w->getPosition().getDistanceFrom(oldPos) > 5.5f)
                 {
