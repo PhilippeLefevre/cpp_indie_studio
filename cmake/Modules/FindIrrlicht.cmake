@@ -10,7 +10,7 @@ if(NOT IRRLICHT_SOURCE_DIR STREQUAL "")
 		"${IRRLICHT_SOURCE_DIR}/include"
 	)
 
-	set(IRRLICHT_LIBRARY_NAMES libIrrlicht.a Irrlicht Irrlicht.lib)
+	set(IRRLICHT_LIBRARY_NAMES libIrrlicht.so libIrrlicht.a Irrlicht Irrlicht.lib)
 
 	if(WIN32)
 		if(MSVC)
@@ -68,4 +68,3 @@ endif(WIN32)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Irrlicht DEFAULT_MSG IRRLICHT_LIBRARY IRRLICHT_INCLUDE_DIR)
-

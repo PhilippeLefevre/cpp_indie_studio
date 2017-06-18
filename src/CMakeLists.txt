@@ -1,3 +1,11 @@
+#==================================
+#======INCLUSION D'IRRLICHT========
+#==================================
+#inclure le repertoire contenant les entetes de irrlicht
+include_directories(${IRRLICHT_PATH_INCLUDE})
+#inlude les bibliothèque compiles
+link_directories(${IRRLICHT_PATH_LIB})
+
 set(SRC_FILES
         ./Map/MapLoader.cpp
         ./Score.cpp

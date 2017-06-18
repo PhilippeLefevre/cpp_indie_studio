@@ -145,6 +145,10 @@ IVideoDriver.h
 -
 NonPlayerCharacter.hpp
 /home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Character/NonPlayerCharacter.hpp
+cstdlib
+-
+ctime
+-
 IEntity.hpp
 /home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Character/IEntity.hpp
 IBlock.hpp

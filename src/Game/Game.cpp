@@ -93,7 +93,6 @@ void Game::init(std::vector<indie::EntityType> const _map)
                 {
                         _ground.push_back(new indie::IndestructibleBlock(_sceneManager, core::vector3df((x * 10), -80.0f, (y * 10)), _driver));
                         int nb = std::rand() % 10;
-                        std::cout << _map.at(x * 15 + y);
                         switch (_map.at(x * 15 + y))
                         {
                                 case indie::EntityType::BLOCK_EMPTY: _block.push_back(new indie::DestructibleBlock(_sceneManager, core::vector3df((x * 10), -70.0f, (y * 10)), _driver, true)); break;

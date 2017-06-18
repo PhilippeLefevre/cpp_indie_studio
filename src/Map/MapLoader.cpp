@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Sun Jun 18 16:16:39 2017 Philippe Lefevre
-// Last update Sun Jun 18 22:01:47 2017 Philippe Lefevre
+// Last update Sun Jun 18 22:24:22 2017 Philippe Lefevre
 //
 
 #include <fstream>
@@ -40,7 +40,6 @@ void MapLoader::init(core::stringc path, s32 nb_player, s32 nb_ia)
                 int i = 0;
                 int pl = 3;
                 int ia = 7;
-                std::cout << nb_player << "#" << nb_ia << std::endl;
                 while (std::getline(afile, line))
                 {
                         if (line.size() != 15)
@@ -53,7 +52,6 @@ void MapLoader::init(core::stringc path, s32 nb_player, s32 nb_ia)
                         {
                                 if ((line[j] - 48) >= 3)
                                 {
-                                        std::cout << "here" << std::endl;
                                         if (nb_player > 0)
                                         {
                                                 _map.push_back((indie::EntityType)(pl));
@@ -84,7 +82,6 @@ void MapLoader::init(core::stringc path, s32 nb_player, s32 nb_ia)
         {
                 std::cerr << "Unable to open file" << std::endl;
         }
-        std::cout << _map.size() << std::endl;
 }
 std::vector<indie::EntityType> const&MapLoader::getMap(void)
 {

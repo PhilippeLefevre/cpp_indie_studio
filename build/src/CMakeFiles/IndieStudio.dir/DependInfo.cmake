@@ -23,6 +23,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../src/."
   "/usr/include/irrlicht"
+  "/usr/X11R6/include"
   "../src/Game"
   "../src/Entity"
   "../src/Entity/Block"

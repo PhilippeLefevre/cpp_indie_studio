@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/. -I/usr/include/irrlicht -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Game -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Block -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Character -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Bomb -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Powerup -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Map 
+CXX_INCLUDES = -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/. -I/usr/include/irrlicht -I/usr/X11R6/include -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Game -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Block -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Character -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Bomb -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Entity/Powerup -I/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/src/Map 
 
