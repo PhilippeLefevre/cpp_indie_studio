@@ -1,0 +1,5 @@
+/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/build/CMakeFiles/rebuild_cache.dir
+/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/build/CMakeFiles/edit_cache.dir
+/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/build/src/CMakeFiles/rebuild_cache.dir
+/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/build/src/CMakeFiles/edit_cache.dir
+/home/atraxys/Workspace/Epitech/Year_2/cpp_indie_studio/build/src/CMakeFiles/IndieStudio.dir
