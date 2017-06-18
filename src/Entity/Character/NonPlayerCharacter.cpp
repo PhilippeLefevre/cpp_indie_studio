@@ -5,11 +5,13 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 15:57:04 2017 Philippe Lefevre
+// Last update Sun Jun 18 21:57:03 2017 John Doe
 //
 
 #include <IVideoDriver.h>
 #include "NonPlayerCharacter.hpp"
+#include <cstdlib>
+#include <ctime>
 #include "IEntity.hpp"
 #include "IBlock.hpp"
 #include "Normal.hpp"
@@ -34,19 +36,13 @@ indie::NonPlayerCharacter::NonPlayerCharacter(scene::ISceneManager *scnMngr, cor
                 std::cerr << "Error: cannot add block" << std::endl;
         }
         _died = false;
+        _collision = false;
         _speed = 1.0f * _PLAYER_SPEED;
         _bomb = 1;
-        _MaxXZ = 130.0f;
-        _MinXZ = 10.0f;
-
-        if (_pos.X == 10.5f && _pos.Z == 10.5f)
-          _direction = 1;
-        if (_pos.X == 130.5f && _pos.Z == 10.5f)
-          _direction = 2;
-        if (_pos.X == 130.5f && _pos.Z == 130.5f)
-          _direction = 3;
-        if (_pos.X == 10.5f && _pos.Z == 130.5f)
-          _direction = 4;
+        _goal.X = _pos.X;
+        _goal.Y = _pos.Y;
+        _goal.Z = _pos.Z;
+        std::srand(std::time(0));
 }
 
 indie::NonPlayerCharacter::~NonPlayerCharacter()
@@ -127,64 +123,68 @@ bool indie::NonPlayerCharacter::Move(const f32 fps, std::vector<indie::IEntity*>
     oldPos.Y = _pos.Y;
     oldPos.Z = _pos.Z;
 
-        if (_direction == 1 && _pos.Z < _MaxXZ)
-        {
-          _pos.Z += _speed * fps;
-          if (_pos.Z >= _MaxXZ)
+    if ((_pos.X == _goal.X &&_pos.Y == _goal.Y && _pos.Z == _goal.Z) || _collision == true)
+      {
+        _collision = false;
+        _direction = rand() % 4 + 1;
+        if (_direction == 1 && _goal.Z <= 130.0f)
           {
-            _MaxXZ -= 20.5f;
-            _direction = 2;
+            _goal.Z += 20.0f;
+          }
+        if (_direction == 2 && _goal.Z >= 10.0f)
+          {
+            _goal.Z -= 20.0f;
+          }
+        if (_direction == 3 && _goal.X <= 130.0f)
+          {
+            _goal.X += 20.0f;
+          }
+        if (_direction == 4 && _goal.X >= 10.0f)
+          {
+            _goal.X += 20.0f;
+          }
+      }
+    if (_direction == 1)
+      {
+        _pos.Z += _speed * fps;
+      }
+    if (_direction == 2)
+      {
+        _pos.Z -= _speed * fps;
+      }
+    if (_direction == 3)
+      {
+        _pos.X -= _speed * fps;
+      }
+    if (_direction == 4)
+      {
+        _pos.X += _speed * fps;
+      }
+    setPosition(_pos);
+    for (indie::IEntity *w : block)
+      {
+        if (isColliding(w->getBoundingBox()))
+          {
+            _collision = true;
+            setPosition(oldPos);
+          if (((indie::IBlock*)w)->isExplosible() == true)
+          {
+            int near;
+            for (indie::IEntity *w : *bomb)
+            {
+                    near = w->getPosition().getDistanceFrom(getPosition());
+            }
+            if (_bomb > 0 && (near == 0 || near > 11))
+            {
+                    int z = ((((int)_pos.Z % 10) > 4) ? ((_pos.Z / 10) + 1) : (_pos.Z / 10));
+                    int x = ((((int)_pos.X % 10) > 4) ? ((_pos.X / 10) + 1) : (_pos.X / 10));
+                    bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10), -70.0f, (z * 10)), _driver, this, _timer->getTime()));
+                    _bomb--;
+                    return (true);
+            }
           }
         }
-        if (_direction == 2 && _pos.X < _MaxXZ)
-        {
-          _pos.X += _speed * fps;
-          if (_pos.X >= _MaxXZ)
-          {
-            _MaxXZ -= 20.5f;
-            _direction = 3;
-          }
-        }
-        if (_direction == 3 && _pos.Z > _MinXZ)
-        {
-          _pos.Z -= _speed * fps;
-          if (_pos.Z <= _MinXZ)
-            {
-              _MinXZ += 20.5f;
-              _direction = 4;
-            }
-        }
-        if (_direction == 4 &&  _pos.X > _MinXZ)
-        {
-          _pos.X -= _speed * fps;
-          if (_pos.X <= _MinXZ)
-            {
-              _MinXZ += 20.5f;
-              _direction = 1;
-            }
-        }
-        setPosition(_pos);
-        for (indie::IEntity *w : block)
-        {
-          if (isColliding(w->getBoundingBox()))
-            {
-              setPosition(oldPos);
-              int near;
-              for (indie::IEntity *w : *bomb)
-              {
-                      near = w->getPosition().getDistanceFrom(getPosition());
-              }
-              if (_bomb > 0 && (near == 0 || near > 11))
-              {
-                      int z = ((((int)_pos.Z % 10) > 4) ? ((_pos.Z / 10) + 1) : (_pos.Z / 10));
-                      int x = ((((int)_pos.X % 10) > 4) ? ((_pos.X / 10) + 1) : (_pos.X / 10));
-                      bomb->push_back(new indie::Normal(_scnMngr, core::vector3df((x * 10), -70.0f, (z * 10)), _driver, this, _timer->getTime()));
-                      _bomb--;
-                      return (true);
-              }
-              break;
-            }
-        }
+      }
 }
 
 void indie::NonPlayerCharacter::giveBomb(unsigned int bomb)

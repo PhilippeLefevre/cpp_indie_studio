@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:07:30 2017 Philippe Lefevre
-// Last update Sat Jun 17 03:15:46 2017 Philippe Lefevre
+// Last update Sun Jun 18 21:55:24 2017 John Doe
 //
 
 #ifndef NONPLAYERCHARACTER_HPP_
@@ -28,8 +28,10 @@ namespace indie
                 bool _died;
                 f32 _speed;
                 unsigned int _bomb;
+                core::vector3df _goal;
                 int _direction;
-                bool _rotate;
+                bool _collision;
+
         public:
                 NonPlayerCharacter(scene::ISceneManager*, core::vector3df, video::IVideoDriver*, ITimer*);
                 ~NonPlayerCharacter(void);
