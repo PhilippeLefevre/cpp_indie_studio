@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 21:53:13 2017 Philippe Lefevre
+// Last update Sun Jun 18 22:36:53 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -13,7 +13,7 @@
 
 indie::DestructibleBlock::DestructibleBlock(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver, bool explosed) : _scnMngr(scnMngr), _pos(pos), _driver(driver), _explosed(explosed)
 {
-        std::string txt = "media/texture_red.bmp";
+        std::string txt = "media/Bomberman Battle/Bomberman Battle/Textures/Box4.png";
         _mesh = _scnMngr->addCubeSceneNode(10, 0, -1, _pos);
         if (_mesh)
         {

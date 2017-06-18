@@ -5,7 +5,7 @@
 // Login   <philippe1.lefevre@epitech.eu>
 //
 // Started on  Wed Jun 14 05:11:44 2017 Philippe Lefevre
-// Last update Sun Jun 18 21:53:43 2017 Philippe Lefevre
+// Last update Sun Jun 18 22:39:23 2017 Philippe Lefevre
 //
 
 #include <IVideoDriver.h>
@@ -13,18 +13,27 @@
 
 indie::IndestructibleBlock::IndestructibleBlock(scene::ISceneManager *scnMngr, core::vector3df pos, video::IVideoDriver *driver) : _scnMngr(scnMngr), _pos(pos), _driver(driver)
 {
-        std::string txt = "media/texture_blue.bmp";
+        std::string txt = "media/Bomberman Battle/Bomberman Battle/Textures/Cement.png";
+        std::string flo = "media/Bomberman Battle/Bomberman Battle/Textures/Light(Green).png";
         _mesh = _scnMngr->addCubeSceneNode(10, 0, -1, _pos);
         if (_mesh)
         {
-                video::ITexture *texture = _driver->getTexture(txt.data());
+                video::ITexture *texture;
+                if (_pos.Y < -70)
+                {
+                        texture = _driver->getTexture(flo.data());
+                }
+                else
+                {
+                        texture = _driver->getTexture(txt.data());
+                }
                 if (texture != 0)
                 {
                         _mesh->setMaterialTexture(0, texture);
                 }
                 if (_pos.Y < -70)
                 {
-                        _mesh->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+                        _mesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
                 }
                 else
                 {
